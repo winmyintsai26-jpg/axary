@@ -1,21 +1,30 @@
 import { motion, useReducedMotion } from 'framer-motion'
 
-import { StarCanvas } from '../../components/StarCanvas'
+import { AudioProvider } from '../../systems/Audio/AudioProvider'
+import { useAudio } from '../../systems/Audio/useAudio'
 import { JourneyButton } from '../../ui/JourneyButton'
 import { useExperienceStore } from '../../store/useExperienceStore'
+import { FirstWorldScene } from '../FirstWorld'
 
-export function LandingScene() {
+function LandingExperience() {
   const reduceMotion = useReducedMotion()
-  const hasAwakened = useExperienceStore((state) => state.hasAwakened)
-  const awaken = useExperienceStore((state) => state.awaken)
+  const journeyPhase = useExperienceStore((state) => state.journeyPhase)
+  const startJourney = useExperienceStore((state) => state.startJourney)
+  const audio = useAudio()
+  const isIdle = journeyPhase === 'idle'
 
   const transition = reduceMotion
     ? { duration: 0 }
     : { duration: 1.8, ease: [0.22, 1, 0.36, 1] as const }
 
+  const beginJourney = () => {
+    void audio.beginJourney()
+    startJourney()
+  }
+
   return (
-    <section className="first-light" data-awakened={hasAwakened}>
-      <StarCanvas reducedMotion={Boolean(reduceMotion)} awakened={hasAwakened} />
+    <section className="first-light" data-phase={journeyPhase}>
+      <FirstWorldScene reducedMotion={Boolean(reduceMotion)} />
 
       <div className="atmosphere" aria-hidden="true">
         <div className="moon-haze" />
@@ -26,8 +35,13 @@ export function LandingScene() {
       <motion.div
         className="landing-content"
         initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
+        animate={{
+          opacity: isIdle ? 1 : 0,
+          y: isIdle ? 0 : -18,
+          scale: isIdle ? 1 : 0.985,
+        }}
         transition={{ ...transition, delay: reduceMotion ? 0 : 0.45 }}
+        aria-hidden={!isIdle}
       >
         <motion.p
           className="wordmark"
@@ -51,7 +65,11 @@ export function LandingScene() {
           animate={{ opacity: 1 }}
           transition={{ ...transition, delay: reduceMotion ? 0 : 1.35 }}
         >
-          <JourneyButton onClick={awaken} awakened={hasAwakened}>
+          <JourneyButton
+            onClick={beginJourney}
+            awakened={!isIdle}
+            tabIndex={isIdle ? 0 : -1}
+          >
             Begin Journey
           </JourneyButton>
         </motion.div>
@@ -62,13 +80,21 @@ export function LandingScene() {
         aria-live="polite"
         initial={false}
         animate={{
-          opacity: hasAwakened ? 1 : 0,
-          y: hasAwakened ? 0 : 6,
+          opacity: journeyPhase === 'arrived' ? 1 : 0,
+          y: journeyPhase === 'arrived' ? 0 : 6,
         }}
         transition={transition}
       >
-        The first light is waiting.
+        Stay as long as you like.
       </motion.p>
     </section>
+  )
+}
+
+export function LandingScene() {
+  return (
+    <AudioProvider>
+      <LandingExperience />
+    </AudioProvider>
   )
 }

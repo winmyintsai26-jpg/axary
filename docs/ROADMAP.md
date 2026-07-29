@@ -24,10 +24,13 @@ different.”
 
 **Purpose:** Turn the invitation into a first act of travel.
 
-- Design one explorable planet.
-- Define movement, camera behavior, arrival, and departure.
-- Establish environmental storytelling and spatial navigation.
-- Prototype graceful loading and performance adaptation.
+- Create one continuous journey from the First Light into a peaceful world.
+- Establish a cinematic camera path through travel, orbit, descent, and arrival.
+- Build a handcrafted sanctuary with a pond, trees, meadow, path, clouds, and
+  a welcoming museum exterior.
+- Introduce quiet, bounded exploration without HUD, objectives, or tutorials.
+- Establish modular journey, environment, camera, input, animation, and audio
+  foundations.
 
 **Boundary:** One curated planet; no world creation or social systems.
 
@@ -77,4 +80,3 @@ attention-driven notifications.
 
 **Exit criterion:** Community interaction makes creators feel safer and more
 motivated to create.
-

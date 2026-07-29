@@ -58,7 +58,7 @@ experience requires them.
 ## Roadmap
 
 1. **The First Light** — establish Axary’s atmosphere and visual language.
-2. **The First Planet** — define the first explorable world.
+2. **The First World** — arrive at the first explorable sanctuary.
 3. **The First Gallery** — let a world hold creative work.
 4. **The Universe** — connect worlds through meaningful travel.
 5. **Community** — introduce encouragement without comparison.
@@ -94,12 +94,13 @@ dotnet run
 
 ## Current Milestone
 
-**Milestone 1 — The First Light**
+**Milestone 2 — The First World**
 
-The application opens directly into a full-screen night sky with a procedural
-star field, subtle twinkling, soft pointer parallax, and one invitation:
-**Begin Journey**. No accounts, uploads, feeds, galleries, or backend behavior
-exist yet.
+The First Light now opens into a continuous cinematic journey: gentle star
+travel, the reveal and orbit of a storybook planetoid, descent through clouds,
+and arrival beside a small museum. The sanctuary includes quiet environmental
+motion and bounded exploration without objectives, tutorials, accounts,
+uploads, galleries, or backend behavior.
 
 ## Documentation
 
@@ -111,4 +112,3 @@ exist yet.
 ## License
 
 Axary is available under the [MIT License](LICENSE).
-

@@ -1,0 +1,1 @@
+export { FirstWorldScene } from './FirstWorldScene'

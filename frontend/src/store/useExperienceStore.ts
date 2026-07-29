@@ -1,11 +1,22 @@
 import { create } from 'zustand'
 
+export type JourneyPhase =
+  | 'idle'
+  | 'traveling'
+  | 'approaching'
+  | 'orbiting'
+  | 'descending'
+  | 'arrived'
+  | 'exploring'
+
 interface ExperienceState {
-  hasAwakened: boolean
-  awaken: () => void
+  journeyPhase: JourneyPhase
+  setJourneyPhase: (phase: JourneyPhase) => void
+  startJourney: () => void
 }
 
 export const useExperienceStore = create<ExperienceState>((set) => ({
-  hasAwakened: false,
-  awaken: () => set({ hasAwakened: true }),
+  journeyPhase: 'idle',
+  setJourneyPhase: (journeyPhase) => set({ journeyPhase }),
+  startJourney: () => set({ journeyPhase: 'traveling' }),
 }))

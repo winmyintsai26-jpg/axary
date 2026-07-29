@@ -79,6 +79,13 @@ button {
   z-index: 1;
   inset: 0;
   pointer-events: none;
+  transition: opacity 3.5s ease;
+}
+
+.first-light[data-phase='descending'] .atmosphere,
+.first-light[data-phase='arrived'] .atmosphere,
+.first-light[data-phase='exploring'] .atmosphere {
+  opacity: 0;
 }
 
 .moon-haze {
@@ -136,6 +143,10 @@ button {
   width: min(90vw, 760px);
   padding: 5rem 1.5rem;
   text-align: center;
+}
+
+.first-light:not([data-phase='idle']) .landing-content {
+  pointer-events: none;
 }
 
 .wordmark {
