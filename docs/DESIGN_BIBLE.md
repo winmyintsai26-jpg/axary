@@ -78,6 +78,20 @@ Interactions should leave both the traveler and the artist feeling more human.
 9. **Every star has meaning.** If fifty stars are visible, fifty creator worlds
    must exist. Emptiness represents possibility and must never be treated as a
    visual problem to fill.
+10. **Discovery precedes arrival.** A distant world should first be understood
+    through color, silhouette, atmosphere, and orbit. Entering it is a later,
+    intentional threshold—not the automatic result of curiosity.
+
+## Prototype World Language
+
+The first five worlds establish a range rather than a template. Peaceful
+Meadow is pastoral and golden; Japanese Garden is delicate and misted;
+Floating Islands is airy and impossible; Crystal Cavern is cool and
+introspective; Autumn Forest is warm and nostalgic.
+
+Future worlds may be radically different, but each needs one coherent emotional
+idea, a memorable silhouette, restrained detail, and enough negative space to
+breathe. Variety should make the universe feel authored, never randomized.
 
 ## Community Principles
 

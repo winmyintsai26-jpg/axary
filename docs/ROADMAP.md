@@ -20,22 +20,21 @@ behavior.
 **Exit criterion:** A visitor opens Axary and immediately feels, “This place is
 different.”
 
-## Milestone 2 — The First Planet
+## Milestone 2 — The First Worlds
 
-**Purpose:** Turn the invitation into a first act of travel.
+**Purpose:** Discover what a creator-owned world could feel like.
 
-- Create one continuous journey from the First Light into a peaceful world.
-- Establish a cinematic camera path through travel, orbit, descent, and arrival.
-- Build a handcrafted sanctuary with a pond, trees, meadow, path, clouds, and
-  a welcoming museum exterior.
-- Introduce quiet, bounded exploration without HUD, objectives, or tutorials.
-- Establish modular journey, environment, camera, input, animation, and audio
-  foundations.
+- Place five meaningful creator-stars in a deliberately sparse universe.
+- Give every light a distinct glow before it is selected.
+- Reveal five handcrafted visual prototypes: Peaceful Meadow, Japanese Garden,
+  Floating Islands, Crystal Cavern, and Autumn Forest.
+- Establish cinematic approach, reveal, orbit, and return camera transitions.
+- Keep the traveler in space as a quiet observer.
 
-**Boundary:** One curated planet; no world creation or social systems.
+**Boundary:** No descent, walking, interiors, world creation, or social systems.
 
-**Exit criterion:** Traveling from the first light to the planet feels
-continuous, calm, and emotionally meaningful.
+**Exit criterion:** Each distant light creates curiosity, and each orbital
+reveal makes the possibilities of creator-owned worlds feel tangible.
 
 ## Milestone 3 — The First Gallery
 

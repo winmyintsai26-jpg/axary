@@ -62,7 +62,7 @@ experience requires them.
 ## Roadmap
 
 1. **The First Light** — establish Axary’s atmosphere and visual language.
-2. **The First World** — arrive at the first explorable sanctuary.
+2. **The First Worlds** — discover five possible creator worlds from orbit.
 3. **The First Gallery** — let a world hold creative work.
 4. **The Universe** — connect worlds through meaningful travel.
 5. **Community** — introduce encouragement without comparison.
@@ -98,13 +98,14 @@ dotnet run
 
 ## Current Milestone
 
-**Milestone 2 — The First World**
+**Milestone 2 — The First Worlds**
 
-The First Light now opens into a continuous cinematic journey: gentle star
-travel, the reveal and orbit of a storybook planetoid, descent through clouds,
-and arrival beside a small museum. The sanctuary includes quiet environmental
-motion and bounded exploration without objectives, tutorials, accounts,
-uploads, galleries, or backend behavior.
+The First Light now opens into a sparse universe containing five meaningful
+creator-stars. Each light has its own color and reveals a handcrafted prototype
+world when selected: Peaceful Meadow, Japanese Garden, Floating Islands,
+Crystal Cavern, or Autumn Forest. Visitors admire each world from a slow,
+cinematic orbit and return to the universe without landing, walking, objectives,
+accounts, uploads, galleries, or backend behavior.
 
 ## Documentation
 

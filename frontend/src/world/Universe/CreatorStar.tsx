@@ -12,12 +12,10 @@ interface CreatorStarProps {
 
 const phaseOpacity = {
   idle: 1,
-  traveling: 1,
-  approaching: 0.72,
+  universe: 1,
+  focusing: 1,
   orbiting: 0,
-  descending: 0,
-  arrived: 0,
-  exploring: 0,
+  returning: 1,
 } as const
 
 export function CreatorStar({ creatorWorld, reducedMotion }: CreatorStarProps) {
@@ -26,6 +24,9 @@ export function CreatorStar({ creatorWorld, reducedMotion }: CreatorStarProps) {
   const innerGlow = useRef<THREE.MeshBasicMaterial>(null)
   const outerGlow = useRef<THREE.MeshBasicMaterial>(null)
   const phase = useExperienceStore((state) => state.journeyPhase)
+  const selectedWorldId = useExperienceStore((state) => state.selectedWorldId)
+  const selectWorld = useExperienceStore((state) => state.selectWorld)
+  const hoverWorld = useExperienceStore((state) => state.hoverWorld)
   const color = useMemo(() => new THREE.Color(creatorWorld.color), [creatorWorld])
 
   useFrame((state, delta) => {
@@ -33,7 +34,8 @@ export function CreatorStar({ creatorWorld, reducedMotion }: CreatorStarProps) {
       return
     }
 
-    const opacity = phaseOpacity[phase]
+    const isSelected = selectedWorldId === creatorWorld.id
+    const opacity = phase === 'focusing' && !isSelected ? 0.16 : phaseOpacity[phase]
     const easing = 1 - Math.exp(-delta * 1.4)
     core.current.opacity = THREE.MathUtils.lerp(core.current.opacity, opacity, easing)
     innerGlow.current.opacity = THREE.MathUtils.lerp(
@@ -55,7 +57,26 @@ export function CreatorStar({ creatorWorld, reducedMotion }: CreatorStarProps) {
   })
 
   return (
-    <group ref={group} position={creatorWorld.position} name={creatorWorld.name}>
+    <group
+      ref={group}
+      position={creatorWorld.position}
+      name={creatorWorld.name}
+      onClick={(event) => {
+        event.stopPropagation()
+        if (phase === 'universe') selectWorld(creatorWorld.id)
+      }}
+      onPointerEnter={(event) => {
+        event.stopPropagation()
+        if (phase === 'universe') {
+          document.body.style.cursor = 'pointer'
+          hoverWorld(creatorWorld.id)
+        }
+      }}
+      onPointerLeave={() => {
+        document.body.style.cursor = ''
+        hoverWorld(null)
+      }}
+    >
       <mesh>
         <sphereGeometry args={[0.075, 24, 18]} />
         <meshBasicMaterial
@@ -79,7 +100,7 @@ export function CreatorStar({ creatorWorld, reducedMotion }: CreatorStarProps) {
         />
       </mesh>
       <mesh>
-        <sphereGeometry args={[0.62, 24, 18]} />
+        <sphereGeometry args={[0.7, 24, 18]} />
         <meshBasicMaterial
           ref={outerGlow}
           color="#c9d8ef"
@@ -90,7 +111,7 @@ export function CreatorStar({ creatorWorld, reducedMotion }: CreatorStarProps) {
           toneMapped={false}
         />
       </mesh>
-      <pointLight color={color} intensity={0.7} distance={4} />
+      <pointLight color={color} intensity={0.85} distance={4} />
     </group>
   )
 }
