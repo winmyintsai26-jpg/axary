@@ -1,0 +1,21 @@
+# Dependencies and build output
+node_modules/
+dist/
+bin/
+obj/
+.npm-cache/
+.openai/
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Logs
+*.log
