@@ -38,6 +38,12 @@ pressure rather than demand attention.
 Discovery should feel meaningful. The universe reveals itself slowly and
 preserves room for mystery.
 
+### Meaningful Light
+
+Every visible star represents a creator and their world. Stars are never
+generated as decoration. The universe begins almost empty and becomes brighter
+only because people create together.
+
 ### Creative Courage
 
 Axary should help people begin before they feel ready. Imperfect work is still
@@ -69,6 +75,9 @@ Interactions should leave both the traveler and the artist feeling more human.
 7. **Accessibility is part of the atmosphere.** Reduced motion, keyboard
    access, readable contrast, and responsive composition are foundational.
 8. **Protect performance.** Wonder disappears when motion stutters.
+9. **Every star has meaning.** If fifty stars are visible, fifty creator worlds
+   must exist. Emptiness represents possibility and must never be treated as a
+   visual problem to fill.
 
 ## Community Principles
 
@@ -91,4 +100,4 @@ Interactions should leave both the traveler and the artist feeling more human.
 - A noisy collection of badges, streaks, alerts, and urgency
 - A generic gallery grid
 - A product that values growth above care
-
+- A decorative galaxy filled with stars that belong to no one

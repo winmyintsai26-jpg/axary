@@ -7,6 +7,10 @@ human encouragement. Every creator will own a world. Visitors will travel
 through those worlds instead of scrolling through a feed, and creative work
 will be encountered as a place rather than ranked as content.
 
+The universe begins with one star for one creator. Every future star must
+represent another real creator world. Axary grows brighter only when people
+create together.
+
 ## Vision
 
 Create one of the most beautiful and calming places on the internet: a universe

@@ -4,8 +4,8 @@ import { Suspense } from 'react'
 import { CinematicCameraRig } from '../../world/Camera/CinematicCameraRig'
 import { GoldenHourLighting } from '../../world/Lighting/GoldenHourLighting'
 import { FirstWorld } from '../../world/Planet/FirstWorld'
-import { JourneyStars } from '../../world/Sky/JourneyStars'
 import { WorldAtmosphere } from '../../world/Sky/WorldAtmosphere'
+import { CreatorUniverse } from '../../world/Universe/CreatorUniverse'
 
 interface FirstWorldSceneProps {
   reducedMotion: boolean
@@ -29,7 +29,7 @@ export function FirstWorldScene({ reducedMotion }: FirstWorldSceneProps) {
           <fog attach="fog" args={['#8aa0bc', 19, 45]} />
           <WorldAtmosphere />
           <GoldenHourLighting />
-          <JourneyStars reducedMotion={reducedMotion} />
+          <CreatorUniverse reducedMotion={reducedMotion} />
           <FirstWorld reducedMotion={reducedMotion} />
           <CinematicCameraRig reducedMotion={reducedMotion} />
         </Suspense>
