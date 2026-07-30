@@ -1,10 +1,10 @@
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
 
+import { BookLights } from '../../book/Worlds/BookLights'
+import { BookWorlds } from '../../book/Worlds/BookWorlds'
 import { CinematicCameraRig } from '../../world/Camera/CinematicCameraRig'
 import { WorldAtmosphere } from '../../world/Sky/WorldAtmosphere'
-import { CreatorUniverse } from '../../world/Universe/CreatorUniverse'
-import { PrototypeWorlds } from '../../world/Worlds/PrototypeWorlds'
 
 interface UniverseSceneProps {
   reducedMotion: boolean
@@ -28,8 +28,8 @@ export function UniverseScene({ reducedMotion }: UniverseSceneProps) {
           <WorldAtmosphere />
           <ambientLight intensity={0.42} color="#aabbd1" />
           <directionalLight position={[5, 7, 8]} intensity={1.5} color="#ffe0aa" />
-          <CreatorUniverse reducedMotion={reducedMotion} />
-          <PrototypeWorlds reducedMotion={reducedMotion} />
+          <BookLights reducedMotion={reducedMotion} />
+          <BookWorlds reducedMotion={reducedMotion} />
           <CinematicCameraRig reducedMotion={reducedMotion} />
         </Suspense>
       </Canvas>

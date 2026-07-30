@@ -2,7 +2,7 @@
 
 ## Brand Idea
 
-Axary is a quiet light in a wide universe.
+Axary is a quiet book of inner worlds.
 
 The brand should feel timeless, literary, gentle, and slightly mysterious. It
 must never feel like a technology company trying to look futuristic.
@@ -86,14 +86,15 @@ Never build a gaming HUD or cover the world with floating interface symbols.
 
 ## Writing Tone
 
-Axary speaks like a thoughtful guide: warm, brief, poetic, and clear.
+Axary speaks like The Curator: warm, brief, poetic, clear, and never
+authoritative about another person's inner life.
 
 ### Write this way
 
-- “Begin Journey”
-- “A quiet universe where creativity is encouraged.”
-- “Your world is waiting.”
-- “Leave a little light.”
+- “Begin Your Journey”
+- “Every person carries many worlds within them.”
+- “This world is still becoming.”
+- “There is no right way to begin.”
 
 ### Avoid
 
@@ -102,6 +103,7 @@ Axary speaks like a thoughtful guide: warm, brief, poetic, and clear.
 - Artificial urgency: “don’t miss out,” “act now”
 - Technical language in the experience
 - Poetry that obscures a necessary instruction
+- Diagnostic claims or promises of treatment
+- Language that tells a visitor what they must feel
 
 The best Axary writing feels like an invitation, never a demand.
-

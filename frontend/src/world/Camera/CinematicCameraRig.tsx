@@ -2,8 +2,8 @@ import { useFrame, useThree } from '@react-three/fiber'
 import { useRef } from 'react'
 import * as THREE from 'three'
 
-import { useExperienceStore } from '../../store/useExperienceStore'
-import { creatorWorlds } from '../Universe/creatorWorlds'
+import { useJourneyStore } from '../../book/Journey/useJourneyStore'
+import { symbolicWorlds } from '../../book/Worlds/worlds'
 
 interface CinematicCameraRigProps {
   reducedMotion: boolean
@@ -13,21 +13,25 @@ const universePosition = new THREE.Vector3(0, 0.2, 18)
 
 export function CinematicCameraRig({ reducedMotion }: CinematicCameraRigProps) {
   const camera = useThree((state) => state.camera)
-  const journeyPhase = useExperienceStore((state) => state.journeyPhase)
-  const selectedWorldId = useExperienceStore((state) => state.selectedWorldId)
-  const setJourneyPhase = useExperienceStore((state) => state.setJourneyPhase)
+  const journeyPhase = useJourneyStore((state) => state.journeyPhase)
+  const selectedWorldId = useJourneyStore((state) => state.selectedWorldId)
+  const setJourneyPhase = useJourneyStore((state) => state.setJourneyPhase)
   const currentLookAt = useRef(new THREE.Vector3(0, 0, 0))
   const orbitAngle = useRef(0)
 
   useFrame((state, delta) => {
     const elapsed = state.clock.elapsedTime
-    const selectedWorld = creatorWorlds.find((world) => world.id === selectedWorldId)
+    const selectedWorld = symbolicWorlds.find((world) => world.id === selectedWorldId)
     const target = selectedWorld
       ? new THREE.Vector3(...selectedWorld.position)
       : new THREE.Vector3(0, 0, 0)
     const smoothing = 1 - Math.exp(-delta * (reducedMotion ? 5 : 1.35))
 
-    if (journeyPhase === 'idle' || journeyPhase === 'universe') {
+    if (
+      journeyPhase === 'introduction' ||
+      journeyPhase === 'questionnaire' ||
+      journeyPhase === 'book'
+    ) {
       camera.position.set(
         Math.sin(elapsed * 0.08) * 0.09,
         0.2 + Math.sin(elapsed * 0.11) * 0.045,
@@ -43,13 +47,13 @@ export function CinematicCameraRig({ reducedMotion }: CinematicCameraRigProps) {
       currentLookAt.current.lerp(new THREE.Vector3(0, 0, 0), smoothing)
       camera.lookAt(currentLookAt.current)
       if (camera.position.distanceTo(universePosition) < 0.08) {
-        setJourneyPhase('universe')
+        setJourneyPhase('book')
       }
       return
     }
 
     if (!selectedWorld) {
-      setJourneyPhase('universe')
+      setJourneyPhase('book')
       return
     }
 

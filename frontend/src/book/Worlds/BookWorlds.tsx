@@ -2,16 +2,17 @@ import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
-import { useExperienceStore } from '../../store/useExperienceStore'
-import type { CreatorWorld, WorldStyle } from '../../types/CreatorWorld'
-import { creatorWorlds } from '../Universe/creatorWorlds'
+import type { WorldStyle } from '../../types/WorldStyle'
+import { useJourneyStore } from '../Journey/useJourneyStore'
+import type { SymbolicWorld } from './types'
+import { symbolicWorlds } from './worlds'
 
-interface PrototypeWorldsProps {
+interface BookWorldsProps {
   reducedMotion: boolean
 }
 
-interface PrototypeWorldProps extends PrototypeWorldsProps {
-  world: CreatorWorld
+interface SymbolicWorldProps extends BookWorldsProps {
+  world: SymbolicWorld
 }
 
 function Tree({
@@ -316,10 +317,10 @@ const worldComponents: Record<WorldStyle, () => React.JSX.Element> = {
   autumn: AutumnWorld,
 }
 
-function PrototypeWorld({ world, reducedMotion }: PrototypeWorldProps) {
+function SymbolicWorldPlanet({ world, reducedMotion }: SymbolicWorldProps) {
   const group = useRef<THREE.Group>(null)
-  const phase = useExperienceStore((state) => state.journeyPhase)
-  const selectedWorldId = useExperienceStore((state) => state.selectedWorldId)
+  const phase = useJourneyStore((state) => state.journeyPhase)
+  const selectedWorldId = useJourneyStore((state) => state.selectedWorldId)
   const isSelected = selectedWorldId === world.id
   const WorldComposition = worldComponents[world.style]
 
@@ -360,11 +361,15 @@ function PrototypeWorld({ world, reducedMotion }: PrototypeWorldProps) {
   )
 }
 
-export function PrototypeWorlds({ reducedMotion }: PrototypeWorldsProps) {
+export function BookWorlds({ reducedMotion }: BookWorldsProps) {
   return (
-    <group name="Prototype creator worlds">
-      {creatorWorlds.map((world) => (
-        <PrototypeWorld key={world.id} world={world} reducedMotion={reducedMotion} />
+    <group name="The Book of Worlds">
+      {symbolicWorlds.map((world) => (
+        <SymbolicWorldPlanet
+          key={world.id}
+          world={world}
+          reducedMotion={reducedMotion}
+        />
       ))}
     </group>
   )

@@ -1,27 +1,23 @@
 # Axary
 
-> A quiet universe where creativity is encouraged.
+> Every person carries many worlds within them.
 
-Axary is a peaceful digital place built around creation, discovery, and gentle
-human encouragement. Every creator will own a world. Visitors will travel
-through those worlds instead of scrolling through a feed, and creative work
-will be encountered as a place rather than ranked as content.
-
-The universe begins with one star for one creator. Every future star must
-represent another real creator world. Axary grows brighter only when people
-create together.
+Axary is a peaceful digital place for self-reflection through symbolic worlds.
+Instead of opening a dashboard, visitors begin a personal journey. They answer
+gentle questions, discover worlds representing different parts of themselves,
+and eventually return to see how those worlds have changed with them.
 
 ## Vision
 
 Create one of the most beautiful and calming places on the internet: a universe
-people choose to visit when they want to feel peaceful, inspired, and ready to
-make something.
+people visit when they want to understand themselves, feel encouraged, and
+spend time with questions that do not have instant answers.
 
 ## Mission
 
-Give every creator a world of their own and make discovery feel like travel.
-Axary replaces comparison with curiosity, metrics with meaning, and endless
-scrolling with intentional exploration.
+Turn self-reflection into a gentle journey through meaningful places. Axary
+replaces diagnosis with curiosity, metrics with symbolism, and endless
+scrolling with intentional reflection.
 
 ## Philosophy
 
@@ -34,9 +30,9 @@ little time in Axary tonight.”
 That distinction guides the product:
 
 - Calm before stimulation
-- Discovery before distribution
+- Reflection before interpretation
 - Encouragement before evaluation
-- Ownership before performance
+- Symbolism before scoring
 - Atmosphere before interface
 
 ## Technology
@@ -62,10 +58,11 @@ experience requires them.
 ## Roadmap
 
 1. **The First Light** — establish Axary’s atmosphere and visual language.
-2. **The First Worlds** — discover five possible creator worlds from orbit.
-3. **The First Gallery** — let a world hold creative work.
-4. **The Universe** — connect worlds through meaningful travel.
-5. **Community** — introduce encouragement without comparison.
+2. **The First Worlds** — prove that handcrafted worlds can carry emotion.
+3. **The Book of Worlds** — establish reflection, symbolic worlds, The Curator,
+   and future-ready conversation foundations.
+4. **World Entry** — allow intentional visits inside one symbolic world.
+5. **Living Worlds** — introduce personalization, memory, and change over time.
 
 See [docs/ROADMAP.md](docs/ROADMAP.md) for the product boundaries and exit
 criteria of each milestone.
@@ -98,14 +95,14 @@ dotnet run
 
 ## Current Milestone
 
-**Milestone 2 — The First Worlds**
+**Phase 3 — The Book of Worlds Foundation**
 
-The First Light now opens into a sparse universe containing five meaningful
-creator-stars. Each light has its own color and reveals a handcrafted prototype
-world when selected: Peaceful Meadow, Japanese Garden, Floating Islands,
-Crystal Cavern, or Autumn Forest. Visitors admire each world from a slow,
-cinematic orbit and return to the universe without landing, walking, objectives,
-accounts, uploads, galleries, or backend behavior.
+Visitors now begin with a calm introduction and a reusable multi-step
+questionnaire. Completing the reflection reveals five symbolic worlds—Heart,
+Growth, Bonds, Purpose, and Soul—which can be observed from orbit. The Curator
+offers scripted guidance through a reusable dialogue model prepared for future
+branching and memory. Personality interpretation, AI conversations, accounts,
+and persistence remain intentionally unimplemented.
 
 ## Documentation
 

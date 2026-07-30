@@ -2,39 +2,40 @@ import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
-import type { CreatorWorld } from '../../types/CreatorWorld'
-import { useExperienceStore } from '../../store/useExperienceStore'
+import { useJourneyStore } from '../Journey/useJourneyStore'
+import type { SymbolicWorld } from './types'
 
-interface CreatorStarProps {
-  creatorWorld: CreatorWorld
+interface WorldLightProps {
   reducedMotion: boolean
+  world: SymbolicWorld
 }
 
 const phaseOpacity = {
-  idle: 1,
-  universe: 1,
+  introduction: 0,
+  questionnaire: 0,
+  book: 1,
   focusing: 1,
   orbiting: 0,
   returning: 1,
 } as const
 
-export function CreatorStar({ creatorWorld, reducedMotion }: CreatorStarProps) {
+export function WorldLight({ reducedMotion, world }: WorldLightProps) {
   const group = useRef<THREE.Group>(null)
   const core = useRef<THREE.MeshBasicMaterial>(null)
   const innerGlow = useRef<THREE.MeshBasicMaterial>(null)
   const outerGlow = useRef<THREE.MeshBasicMaterial>(null)
-  const phase = useExperienceStore((state) => state.journeyPhase)
-  const selectedWorldId = useExperienceStore((state) => state.selectedWorldId)
-  const selectWorld = useExperienceStore((state) => state.selectWorld)
-  const hoverWorld = useExperienceStore((state) => state.hoverWorld)
-  const color = useMemo(() => new THREE.Color(creatorWorld.color), [creatorWorld])
+  const phase = useJourneyStore((state) => state.journeyPhase)
+  const selectedWorldId = useJourneyStore((state) => state.selectedWorldId)
+  const selectWorld = useJourneyStore((state) => state.selectWorld)
+  const hoverWorld = useJourneyStore((state) => state.hoverWorld)
+  const color = useMemo(() => new THREE.Color(world.color), [world])
 
   useFrame((state, delta) => {
     if (!group.current || !core.current || !innerGlow.current || !outerGlow.current) {
       return
     }
 
-    const isSelected = selectedWorldId === creatorWorld.id
+    const isSelected = selectedWorldId === world.id
     const opacity = phase === 'focusing' && !isSelected ? 0.16 : phaseOpacity[phase]
     const easing = 1 - Math.exp(-delta * 1.4)
     core.current.opacity = THREE.MathUtils.lerp(core.current.opacity, opacity, easing)
@@ -59,17 +60,17 @@ export function CreatorStar({ creatorWorld, reducedMotion }: CreatorStarProps) {
   return (
     <group
       ref={group}
-      position={creatorWorld.position}
-      name={creatorWorld.name}
+      position={world.position}
+      name={world.name}
       onClick={(event) => {
         event.stopPropagation()
-        if (phase === 'universe') selectWorld(creatorWorld.id)
+        if (phase === 'book') selectWorld(world.id)
       }}
       onPointerEnter={(event) => {
         event.stopPropagation()
-        if (phase === 'universe') {
+        if (phase === 'book') {
           document.body.style.cursor = 'pointer'
-          hoverWorld(creatorWorld.id)
+          hoverWorld(world.id)
         }
       }}
       onPointerLeave={() => {
@@ -83,7 +84,7 @@ export function CreatorStar({ creatorWorld, reducedMotion }: CreatorStarProps) {
           ref={core}
           color={color}
           transparent
-          opacity={1}
+          opacity={0}
           toneMapped={false}
         />
       </mesh>
@@ -93,7 +94,7 @@ export function CreatorStar({ creatorWorld, reducedMotion }: CreatorStarProps) {
           ref={innerGlow}
           color={color}
           transparent
-          opacity={0.2}
+          opacity={0}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
           toneMapped={false}
@@ -103,9 +104,9 @@ export function CreatorStar({ creatorWorld, reducedMotion }: CreatorStarProps) {
         <sphereGeometry args={[0.7, 24, 18]} />
         <meshBasicMaterial
           ref={outerGlow}
-          color="#c9d8ef"
+          color={world.glow}
           transparent
-          opacity={0.075}
+          opacity={0}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
           toneMapped={false}

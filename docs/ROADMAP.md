@@ -36,46 +36,51 @@ different.”
 **Exit criterion:** Each distant light creates curiosity, and each orbital
 reveal makes the possibilities of creator-owned worlds feel tangible.
 
-## Milestone 3 — The First Gallery
+## Milestone 3 — The Book of Worlds
 
-**Purpose:** Discover creative work as part of a world.
+**Purpose:** Establish Axary as a symbolic journey for self-reflection.
 
-- Design a spatial gallery that does not resemble a grid or portfolio.
-- Establish artwork focus, context, pacing, and artist presence.
-- Explore accessible alternatives for spatial navigation.
-- Define the smallest honest artwork data model.
+- Introduce a calm multi-step reflection journey.
+- Reveal Heart, Growth, Bonds, Purpose, and Soul as symbolic worlds.
+- Define independent world environment, lighting, weather, music,
+  architecture, vegetation, symbolism, emotional tone, dialogue, and memory
+  properties.
+- Introduce The Curator as a scripted, non-judgmental guide.
+- Establish dialogue history, speakers, timestamps, branching, and memory
+  interfaces without connecting AI.
 
-**Boundary:** Curated sample work only; no public uploads or creator accounts.
+**Boundary:** No AI interpretation, diagnosis, accounts, persistence, world
+entry, or generated personality profile.
 
-**Exit criterion:** Viewing art feels like visiting a place, not consuming
-content.
+**Exit criterion:** The journey feels personal and meaningful even though its
+questions and dialogue are still scripted prototypes.
 
-## Milestone 4 — The Universe
+## Milestone 4 — World Entry
 
-**Purpose:** Connect many worlds without creating a feed.
+**Purpose:** Cross the threshold into one symbolic world.
 
-- Design the universe map and discovery model.
-- Create transitions between worlds.
-- Introduce persistence, asset storage, and real-time presence only where
-  justified.
-- Validate performance across device capability levels.
+- Design one complete interior environment.
+- Make movement contemplative rather than game-like.
+- Connect environmental symbolism to earlier reflections.
+- Establish accessible alternatives to spatial navigation.
 
-**Boundary:** Discovery must not use public popularity rankings.
+**Boundary:** One world only; no AI conversation or persistent memory.
 
-**Exit criterion:** Travelers can find unfamiliar worlds through curiosity and
-meaningful signals.
+**Exit criterion:** Entering the world feels intentional, safe, and emotionally
+coherent.
 
-## Milestone 5 — Community
+## Milestone 5 — Living Worlds
 
-**Purpose:** Let people encourage one another without comparison.
+**Purpose:** Let worlds remember and gently evolve with returning visitors.
 
-- Introduce creator identity and world ownership.
-- Design encouragement as a thoughtful act, not a score.
-- Add safe creation and publishing workflows.
-- Establish moderation, consent, privacy, and community care.
+- Introduce transparent symbolic interpretation.
+- Add carefully bounded AI conversations with The Curator.
+- Design long-term memory with explicit visitor control.
+- Allow environments to change slowly through meaningful reflection.
+- Introduce identity and persistence only when privacy foundations are ready.
 
-**Boundary:** No follower counts, engagement leaderboards, streaks, or
-attention-driven notifications.
+**Boundary:** No diagnosis, manipulation, engagement loops, hidden memory, or
+claims of professional mental-health treatment.
 
-**Exit criterion:** Community interaction makes creators feel safer and more
-motivated to create.
+**Exit criterion:** A returning visitor feels remembered without feeling
+observed or classified.

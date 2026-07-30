@@ -1,37 +1,39 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 
+import { Curator } from '../../book/Curator/Curator'
+import { useJourneyStore } from '../../book/Journey/useJourneyStore'
+import { QuestionnaireJourney } from '../../book/Questionnaire/QuestionnaireJourney'
+import { symbolicWorlds } from '../../book/Worlds/worlds'
 import { AudioProvider } from '../../systems/Audio/AudioProvider'
 import { useAudio } from '../../systems/Audio/useAudio'
 import { JourneyButton } from '../../ui/JourneyButton'
-import { useExperienceStore } from '../../store/useExperienceStore'
-import { creatorWorlds } from '../../world/Universe/creatorWorlds'
 import { UniverseScene } from '../Universe'
 
-function LandingExperience() {
-  const reduceMotion = useReducedMotion()
-  const journeyPhase = useExperienceStore((state) => state.journeyPhase)
-  const startJourney = useExperienceStore((state) => state.startJourney)
-  const selectedWorldId = useExperienceStore((state) => state.selectedWorldId)
-  const hoveredWorldId = useExperienceStore((state) => state.hoveredWorldId)
-  const returnToUniverse = useExperienceStore((state) => state.returnToUniverse)
+function BookOfWorldsExperience() {
+  const reduceMotion = Boolean(useReducedMotion())
+  const journeyPhase = useJourneyStore((state) => state.journeyPhase)
+  const beginJourney = useJourneyStore((state) => state.beginJourney)
+  const selectedWorldId = useJourneyStore((state) => state.selectedWorldId)
+  const hoveredWorldId = useJourneyStore((state) => state.hoveredWorldId)
+  const returnToBook = useJourneyStore((state) => state.returnToBook)
+  const selectWorld = useJourneyStore((state) => state.selectWorld)
   const audio = useAudio()
-  const isIdle = journeyPhase === 'idle'
-  const selectedWorld = creatorWorlds.find((world) => world.id === selectedWorldId)
-  const hoveredWorld = creatorWorlds.find((world) => world.id === hoveredWorldId)
-  const isObserving = journeyPhase === 'focusing' || journeyPhase === 'orbiting'
 
+  const selectedWorld = symbolicWorlds.find((world) => world.id === selectedWorldId)
+  const hoveredWorld = symbolicWorlds.find((world) => world.id === hoveredWorldId)
+  const isObserving = journeyPhase === 'focusing' || journeyPhase === 'orbiting'
   const transition = reduceMotion
     ? { duration: 0 }
-    : { duration: 1.8, ease: [0.22, 1, 0.36, 1] as const }
+    : { duration: 1.2, ease: [0.22, 1, 0.36, 1] as const }
 
-  const beginJourney = () => {
+  const start = () => {
     void audio.beginJourney()
-    startJourney()
+    beginJourney()
   }
 
   return (
-    <section className="first-light" data-phase={journeyPhase}>
-      <UniverseScene reducedMotion={Boolean(reduceMotion)} />
+    <main className="book-experience" data-phase={journeyPhase}>
+      <UniverseScene reducedMotion={reduceMotion} />
 
       <div className="atmosphere" aria-hidden="true">
         <div className="moon-haze" />
@@ -39,81 +41,97 @@ function LandingExperience() {
         <div className="horizon-mist" />
       </div>
 
-      <motion.div
-        className="landing-content"
-        initial={{ opacity: 0, y: 18 }}
-        animate={{
-          opacity: isIdle ? 1 : 0,
-          y: isIdle ? 0 : -18,
-          scale: isIdle ? 1 : 0.985,
-        }}
-        transition={{ ...transition, delay: reduceMotion ? 0 : 0.45 }}
-        aria-hidden={!isIdle}
-      >
-        <motion.p
-          className="wordmark"
-          initial={{ letterSpacing: '0.52em', opacity: 0 }}
-          animate={{ letterSpacing: '0.68em', opacity: 1 }}
-          transition={{ ...transition, delay: reduceMotion ? 0 : 0.2 }}
-        >
-          AXARY
-        </motion.p>
-
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ ...transition, delay: reduceMotion ? 0 : 0.9 }}
-        >
-          A quiet universe where creativity is encouraged.
-        </motion.h1>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ ...transition, delay: reduceMotion ? 0 : 1.35 }}
-        >
-          <JourneyButton
-            onClick={beginJourney}
-            awakened={!isIdle}
-            tabIndex={isIdle ? 0 : -1}
-          >
-            Begin Journey
-          </JourneyButton>
-        </motion.div>
-      </motion.div>
-
-      <AnimatePresence>
-        {journeyPhase === 'universe' && (
-          <motion.div
-            className="universe-guidance"
-            initial={{ opacity: 0, y: 8 }}
+      <AnimatePresence mode="wait">
+        {journeyPhase === 'introduction' && (
+          <motion.section
+            className="introduction"
+            key="introduction"
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -5 }}
+            exit={{ opacity: 0, y: -14 }}
             transition={transition}
           >
-            <p className="universe-eyebrow">Five lights. Five imagined worlds.</p>
-            <p className="universe-instruction">
-              {hoveredWorld?.name ?? 'Choose a light to draw closer.'}
-            </p>
+            <p className="wordmark">AXARY</p>
+            <h1>Every person carries many worlds within them.</h1>
+            <div className="introduction-copy">
+              <p>Some represent love.</p>
+              <p>Some represent purpose.</p>
+              <p>Some remain unexplored.</p>
+            </div>
+            <p className="invitation">Today, you will begin discovering yours.</p>
+            <JourneyButton onClick={start} awakened={false}>
+              Begin Your Journey
+            </JourneyButton>
+          </motion.section>
+        )}
+
+        {journeyPhase === 'questionnaire' && (
+          <motion.div
+            className="questionnaire-shell"
+            key="questionnaire"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={transition}
+          >
+            <QuestionnaireJourney reducedMotion={reduceMotion} />
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AnimatePresence>
+        {journeyPhase === 'book' && (
+          <motion.header
+            className="book-guidance"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={transition}
+          >
+            <p className="quiet-label">The Book of Worlds</p>
+            <h1>{hoveredWorld?.name ?? 'Five worlds wait within you.'}</h1>
+            <p>
+              {hoveredWorld?.description ??
+                'Choose the world that quietly asks for your attention.'}
+            </p>
+          </motion.header>
+        )}
+      </AnimatePresence>
+
+      {journeyPhase === 'book' && (
+        <nav className="world-access-list" aria-label="Symbolic worlds">
+          {symbolicWorlds.map((world) => (
+            <button key={world.id} type="button" onClick={() => selectWorld(world.id)}>
+              Visit the World of {world.name}
+            </button>
+          ))}
+        </nav>
+      )}
 
       <AnimatePresence>
         {isObserving && selectedWorld && (
           <motion.aside
             className="world-caption"
             initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: journeyPhase === 'orbiting' ? 1 : 0, x: 0 }}
+            animate={{
+              opacity: journeyPhase === 'orbiting' ? 1 : 0,
+              x: 0,
+            }}
             exit={{ opacity: 0, x: -10 }}
             transition={transition}
             aria-live="polite"
           >
-            <span className="world-number">
-              World {creatorWorlds.indexOf(selectedWorld) + 1}
+            <span className="world-symbol" aria-hidden="true">
+              {selectedWorld.icon}
             </span>
+            <p className="quiet-label">The World of</p>
             <h2>{selectedWorld.name}</h2>
             <p>{selectedWorld.description}</p>
+            <div className="world-tone" aria-label="Emotional tone">
+              {selectedWorld.narrative.emotionalTone.map((tone) => (
+                <span key={tone}>{tone}</span>
+              ))}
+            </div>
           </motion.aside>
         )}
       </AnimatePresence>
@@ -123,25 +141,27 @@ function LandingExperience() {
           <motion.button
             className="return-button"
             type="button"
-            onClick={returnToUniverse}
+            onClick={returnToBook}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={transition}
           >
             <span aria-hidden="true">←</span>
-            Return to the universe
+            Return to the Book
           </motion.button>
         )}
       </AnimatePresence>
-    </section>
+
+      <Curator reducedMotion={reduceMotion} />
+    </main>
   )
 }
 
 export function LandingScene() {
   return (
     <AudioProvider>
-      <LandingExperience />
+      <BookOfWorldsExperience />
     </AudioProvider>
   )
 }
