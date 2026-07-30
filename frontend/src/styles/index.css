@@ -591,12 +591,55 @@ button {
   cursor: pointer;
 }
 
+.dialogue-history > div {
+  margin-bottom: 0.9rem;
+}
+
+.dialogue-history > div[data-speaker='traveler'] {
+  padding-left: 1rem;
+  border-left: 1px solid rgba(229, 190, 125, 0.22);
+}
+
+.dialogue-history span {
+  display: block;
+  margin-bottom: 0.22rem;
+  color: rgba(167, 178, 194, 0.42);
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .dialogue-history p {
-  margin: 0 0 0.8rem;
+  margin: 0;
   color: rgba(194, 204, 218, 0.76);
   font-family: var(--serif);
   font-size: 0.9rem;
   line-height: 1.55;
+}
+
+.curator-prompt {
+  width: 100%;
+  margin: 0.2rem 0 0.9rem;
+  padding: 0.72rem 0.8rem;
+  color: rgba(229, 212, 184, 0.76);
+  font-family: var(--serif);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  text-align: left;
+  background: rgba(229, 190, 125, 0.04);
+  border: 1px solid rgba(229, 190, 125, 0.16);
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    color 400ms ease,
+    background 400ms ease,
+    border-color 400ms ease;
+}
+
+.curator-prompt:hover {
+  color: rgba(244, 231, 208, 0.94);
+  background: rgba(229, 190, 125, 0.08);
+  border-color: rgba(229, 190, 125, 0.28);
 }
 
 .curator-dialogue small {

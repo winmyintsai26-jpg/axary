@@ -15,6 +15,10 @@ interface SymbolicWorldProps extends BookWorldsProps {
   world: SymbolicWorld
 }
 
+interface WorldCompositionProps {
+  world: SymbolicWorld
+}
+
 function Tree({
   foliage,
   position,
@@ -96,14 +100,15 @@ function Studio({
   )
 }
 
-function MeadowWorld() {
+function MeadowWorld({ world }: WorldCompositionProps) {
+  const palette = world.environment.colorPalette
   const flowers = useMemo(
     () =>
       Array.from({ length: 20 }, (_, index) => {
         const angle = index * 2.399
         const radius = 0.35 + (index % 5) * 0.17
         return {
-          color: ['#f6d796', '#f3b6c5', '#d9e8f1'][index % 3],
+          color: [palette.glow, palette.accent, palette.water][index % 3],
           position: [
             Math.cos(angle) * radius,
             1.53 + (index % 3) * 0.018,
@@ -111,19 +116,19 @@ function MeadowWorld() {
           ] as [number, number, number],
         }
       }),
-    [],
+    [palette],
   )
 
   return (
     <group>
       <mesh>
         <sphereGeometry args={[1.55, 48, 32]} />
-        <meshStandardMaterial color="#79a96f" roughness={0.98} />
+        <meshStandardMaterial color={palette.terrain} roughness={0.98} />
       </mesh>
-      <WaterDisc color="#7db8c1" position={[-0.52, 1.48, 0.16]} scale={0.72} />
+      <WaterDisc color={palette.water} position={[-0.52, 1.48, 0.16]} scale={0.72} />
       <Studio />
-      <Tree foliage="#496f4c" position={[-0.95, 1.22, -0.22]} scale={0.75} />
-      <Tree foliage="#64865a" position={[0.88, 1.25, -0.18]} scale={0.66} />
+      <Tree foliage={palette.foliage} position={[-0.95, 1.22, -0.22]} scale={0.75} />
+      <Tree foliage={palette.accent} position={[0.88, 1.25, -0.18]} scale={0.66} />
       {flowers.map((flower, index) => (
         <mesh key={index} position={flower.position}>
           <sphereGeometry args={[0.025, 7, 5]} />
@@ -134,20 +139,22 @@ function MeadowWorld() {
   )
 }
 
-function GardenWorld() {
+function GardenWorld({ world }: WorldCompositionProps) {
+  const palette = world.environment.colorPalette
+
   return (
     <group>
       <mesh>
         <sphereGeometry args={[1.55, 48, 32]} />
-        <meshStandardMaterial color="#71816a" roughness={1} />
+        <meshStandardMaterial color={palette.terrain} roughness={1} />
       </mesh>
-      <WaterDisc color="#476f76" position={[0.34, 1.49, 0.18]} scale={0.76} />
-      <Tree foliage="#e7a5b6" position={[-0.75, 1.3, 0]} scale={0.9} />
-      <Tree foliage="#f0bcc7" position={[0.95, 1.18, -0.2]} scale={0.7} />
+      <WaterDisc color={palette.water} position={[0.34, 1.49, 0.18]} scale={0.76} />
+      <Tree foliage={palette.foliage} position={[-0.75, 1.3, 0]} scale={0.9} />
+      <Tree foliage={palette.accent} position={[0.95, 1.18, -0.2]} scale={0.7} />
       <group position={[-0.04, 1.56, -0.1]} scale={0.42}>
         <mesh position={[0, 0.22, 0]}>
           <boxGeometry args={[0.66, 0.46, 0.5]} />
-          <meshStandardMaterial color="#8d463e" />
+          <meshStandardMaterial color={palette.accent} />
         </mesh>
         <mesh position={[0, 0.53, 0]} rotation={[0, Math.PI / 4, 0]}>
           <coneGeometry args={[0.58, 0.24, 4]} />
@@ -169,8 +176,8 @@ function GardenWorld() {
           <mesh position={[0, 0.35, 0]}>
             <sphereGeometry args={[0.09, 10, 8]} />
             <meshStandardMaterial
-              color="#f4c77d"
-              emissive="#e9a24e"
+              color={palette.glow}
+              emissive={palette.glow}
               emissiveIntensity={1}
             />
           </mesh>
@@ -180,12 +187,14 @@ function GardenWorld() {
   )
 }
 
-function FloatingIslandsWorld() {
+function FloatingIslandsWorld({ world }: WorldCompositionProps) {
+  const palette = world.environment.colorPalette
+
   return (
     <group>
       <mesh scale={[1.1, 0.72, 1.1]}>
         <dodecahedronGeometry args={[1.15, 1]} />
-        <meshStandardMaterial color="#7e9c78" roughness={1} />
+        <meshStandardMaterial color={palette.foliage} roughness={1} />
       </mesh>
       {(
         [
@@ -197,17 +206,17 @@ function FloatingIslandsWorld() {
         <group key={index} position={[x, y, z]} scale={scale}>
           <mesh scale={[1, 0.55, 1]}>
             <dodecahedronGeometry args={[1, 0]} />
-            <meshStandardMaterial color="#819a74" roughness={1} />
+            <meshStandardMaterial color={palette.accent} roughness={1} />
           </mesh>
           <mesh position={[0, -0.83, 0]} rotation={[Math.PI, 0, 0]}>
             <coneGeometry args={[0.75, 1.25, 7]} />
-            <meshStandardMaterial color="#645c52" roughness={1} />
+            <meshStandardMaterial color={palette.terrain} roughness={1} />
           </mesh>
         </group>
       ))}
       <mesh position={[-1.55, -0.25, 0.45]} scale={[0.11, 1.6, 0.06]}>
         <boxGeometry />
-        <meshBasicMaterial color="#b8e5ef" transparent opacity={0.72} />
+        <meshBasicMaterial color={palette.water} transparent opacity={0.72} />
       </mesh>
       <group position={[0.2, 0.75, 0.25]} scale={0.42}>
         <mesh position={[-0.34, 0.15, 0]}>
@@ -227,7 +236,8 @@ function FloatingIslandsWorld() {
   )
 }
 
-function CrystalCavernWorld() {
+function CrystalCavernWorld({ world }: WorldCompositionProps) {
+  const palette = world.environment.colorPalette
   const crystals = [
     [-0.7, 1.24, 0.42, 0.42],
     [-0.28, 1.55, 0.3, 0.62],
@@ -239,9 +249,9 @@ function CrystalCavernWorld() {
     <group>
       <mesh>
         <sphereGeometry args={[1.55, 48, 32]} />
-        <meshStandardMaterial color="#253b44" roughness={0.88} />
+        <meshStandardMaterial color={palette.terrain} roughness={0.88} />
       </mesh>
-      <WaterDisc color="#5ccbd5" position={[0, 1.5, 0.42]} scale={1.18} />
+      <WaterDisc color={palette.water} position={[0, 1.5, 0.42]} scale={1.18} />
       {crystals.map(([x, y, z, scale], index) => (
         <mesh
           key={index}
@@ -251,36 +261,47 @@ function CrystalCavernWorld() {
         >
           <octahedronGeometry args={[0.48, 0]} />
           <meshStandardMaterial
-            color={index % 2 ? '#81e4e7' : '#a3cffa'}
-            emissive={index % 2 ? '#3ac6cb' : '#6aaee8'}
+            color={index % 2 ? palette.glow : palette.accent}
+            emissive={palette.glow}
             emissiveIntensity={0.8}
             metalness={0.15}
             roughness={0.22}
           />
         </mesh>
       ))}
-      <pointLight position={[0, 2.4, 1]} color="#65e3ea" intensity={3} distance={5} />
+      <pointLight
+        position={[0, 2.4, 1]}
+        color={palette.glow}
+        intensity={3}
+        distance={5}
+      />
       {[-0.95, 0.92].map((x) => (
         <mesh key={x} position={[x, 1.18, 0.3]} scale={[0.45, 0.18, 0.45]}>
           <dodecahedronGeometry args={[0.5, 0]} />
-          <meshStandardMaterial color="#52765c" roughness={1} />
+          <meshStandardMaterial color={palette.foliage} roughness={1} />
         </mesh>
       ))}
     </group>
   )
 }
 
-function AutumnWorld() {
+function AutumnWorld({ world }: WorldCompositionProps) {
+  const palette = world.environment.colorPalette
+
   return (
     <group>
       <mesh>
         <sphereGeometry args={[1.55, 48, 32]} />
-        <meshStandardMaterial color="#8f7655" roughness={1} />
+        <meshStandardMaterial color={palette.terrain} roughness={1} />
       </mesh>
-      <Tree foliage="#c85734" position={[-0.92, 1.2, -0.05]} scale={0.9} />
-      <Tree foliage="#e18b3e" position={[-0.45, 1.45, -0.2]} scale={0.72} />
-      <Tree foliage="#a94532" position={[0.9, 1.22, -0.12]} scale={0.8} />
-      <Studio color="#a7714f" roof="#4d3a36" position={[0.22, 1.49, 0]} />
+      <Tree foliage={palette.foliage} position={[-0.92, 1.2, -0.05]} scale={0.9} />
+      <Tree foliage={palette.accent} position={[-0.45, 1.45, -0.2]} scale={0.72} />
+      <Tree foliage={palette.glow} position={[0.9, 1.22, -0.12]} scale={0.8} />
+      <Studio
+        color={palette.accent}
+        roof={palette.terrain}
+        position={[0.22, 1.49, 0]}
+      />
       <mesh position={[-0.46, 1.56, 0.58]} rotation={[0, 0.2, 0]}>
         <boxGeometry args={[0.72, 0.07, 0.2]} />
         <meshStandardMaterial color="#654334" roughness={1} />
@@ -299,7 +320,7 @@ function AutumnWorld() {
           >
             <planeGeometry args={[0.08, 0.045]} />
             <meshBasicMaterial
-              color={index % 2 ? '#df7e39' : '#b84e31'}
+              color={index % 2 ? palette.glow : palette.accent}
               side={THREE.DoubleSide}
             />
           </mesh>
@@ -309,7 +330,10 @@ function AutumnWorld() {
   )
 }
 
-const worldComponents: Record<WorldStyle, () => React.JSX.Element> = {
+const worldComponents: Record<
+  WorldStyle,
+  (properties: WorldCompositionProps) => React.JSX.Element
+> = {
   meadow: MeadowWorld,
   garden: GardenWorld,
   islands: FloatingIslandsWorld,
@@ -344,9 +368,9 @@ function SymbolicWorldPlanet({ world, reducedMotion }: SymbolicWorldProps) {
       ref={group}
       position={world.position}
       scale={0.001}
-      name={`${world.name} prototype world`}
+      name={`${world.name} symbolic world`}
     >
-      <WorldComposition />
+      <WorldComposition world={world} />
       <mesh scale={1.04}>
         <sphereGeometry args={[1.55, 40, 28]} />
         <meshBasicMaterial

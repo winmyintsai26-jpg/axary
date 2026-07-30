@@ -1,4 +1,4 @@
-import type { DialogueMessage, DialogueThread } from '../../book/Dialogue/types'
+import type { DialogueDraft, DialogueThread } from '../../book/Dialogue/types'
 
 export interface ConversationContext {
   history: DialogueThread
@@ -6,5 +6,5 @@ export interface ConversationContext {
 }
 
 export interface ConversationProvider {
-  respond(context: ConversationContext): Promise<DialogueMessage>
+  respond(context: ConversationContext): Promise<DialogueDraft>
 }

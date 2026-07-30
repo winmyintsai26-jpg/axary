@@ -10,11 +10,16 @@ interface CuratorProps {
 
 export function Curator({ reducedMotion }: CuratorProps) {
   const activeThread = useDialogueStore((state) => state.activeThread)
+  const askCurator = useDialogueStore((state) => state.askCurator)
   const isOpen = useDialogueStore((state) => state.isCuratorOpen)
   const setOpen = useDialogueStore((state) => state.setCuratorOpen)
   const journeyPhase = useJourneyStore((state) => state.journeyPhase)
   const selectedWorldId = useJourneyStore((state) => state.selectedWorldId)
   const selectedWorld = symbolicWorlds.find((world) => world.id === selectedWorldId)
+  const heartQuestion = 'Why does my Heart World feel so quiet?'
+  const hasAskedHeartQuestion = activeThread.messages.some(
+    (message) => message.speaker === 'traveler' && message.text === heartQuestion,
+  )
   const isVisible = journeyPhase !== 'introduction'
   const transition = reducedMotion
     ? { duration: 0 }
@@ -50,15 +55,23 @@ export function Curator({ reducedMotion }: CuratorProps) {
             </header>
             <div className="dialogue-history" aria-live="polite">
               {activeThread.messages.map((message) => (
-                <p key={message.id}>{message.text}</p>
+                <div key={message.id} data-speaker={message.speaker}>
+                  <span>{message.speaker === 'traveler' ? 'You' : 'The Curator'}</span>
+                  <p>{message.text}</p>
+                </div>
               ))}
-              {selectedWorld && journeyPhase === 'orbiting' && (
-                <p>
-                  {selectedWorld.name} is still becoming. Every path here will one day
-                  tell a story.
-                </p>
-              )}
             </div>
+            {selectedWorld?.id === 'heart' &&
+              journeyPhase === 'orbiting' &&
+              !hasAskedHeartQuestion && (
+                <button
+                  className="curator-prompt"
+                  type="button"
+                  onClick={() => void askCurator(heartQuestion, selectedWorld.id)}
+                >
+                  {heartQuestion}
+                </button>
+              )}
             <small>Scripted guidance for this foundation</small>
           </motion.div>
         )}

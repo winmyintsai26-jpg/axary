@@ -55,6 +55,14 @@ can be gentle without becoming shallow.
 Axary offers interpretations, never verdicts. A visitor remains the authority
 on their own life.
 
+### The Mirror Principle
+
+Axary is a mirror, never a judge. It may suggest symbols and invite questions,
+but it never defines, diagnoses, predicts, or claims authority over a visitor's
+inner life. Personality psychology and Jungian themes inspire the artistic
+language of symbols, archetypal imagery, and growth; they are not presented as
+scientific assessment.
+
 ### Care
 
 Interactions should leave both the traveler and the artist feeling more human.
@@ -81,6 +89,9 @@ Interactions should leave both the traveler and the artist feeling more human.
 10. **Discovery precedes arrival.** A distant world should first be understood
     through color, silhouette, atmosphere, and orbit. Entering it is a later,
     intentional threshold—not the automatic result of curiosity.
+11. **Interpretation remains open.** Every Curator response must encourage
+    reflection, avoid definition, leave room for interpretation, show respect,
+    and end with hope.
 
 ## Symbolic World Language
 

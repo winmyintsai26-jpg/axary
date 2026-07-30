@@ -1,9 +1,11 @@
 import type { SymbolicWorld } from '../../book/Worlds/types'
-import type { SymbolicInterpretation } from '../Personality/types'
+import type { SymbolicInterpretation } from '../Reflection/types'
+import type { WorldState } from '../WorldState/types'
 
 export interface WorldGenerationContext {
-  baseWorld: SymbolicWorld
+  blueprint: SymbolicWorld
   interpretation?: SymbolicInterpretation
+  state: WorldState
 }
 
 export interface WorldGenerator {

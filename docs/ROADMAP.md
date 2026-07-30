@@ -55,7 +55,25 @@ entry, or generated personality profile.
 **Exit criterion:** The journey feels personal and meaningful even though its
 questions and dialogue are still scripted prototypes.
 
-## Milestone 4 — World Entry
+## Milestone 4 — The Mirror Principle
+
+**Purpose:** Turn Axary's non-judgmental philosophy into an enforceable system.
+
+- Replace personality typing with a flexible Reflection Engine.
+- Represent interpretation through recurring themes, open questions, and
+  possible world influences—never labels or scores.
+- Define reusable world blueprints, independent state, and symbolic evolution.
+- Introduce a Mirror Rule gate for every Curator response.
+- Add placeholder repositories for future memory and world state without
+  persistence.
+
+**Boundary:** No diagnosis, prediction, AI, therapy, accounts, persistence,
+world entry, or generated personality profile.
+
+**Exit criterion:** Every layer—from dialogue wording to data types—leaves the
+visitor in authority over what feels true.
+
+## Milestone 5 — World Entry
 
 **Purpose:** Cross the threshold into one symbolic world.
 
@@ -69,7 +87,7 @@ questions and dialogue are still scripted prototypes.
 **Exit criterion:** Entering the world feels intentional, safe, and emotionally
 coherent.
 
-## Milestone 5 — Living Worlds
+## Milestone 6 — Living Worlds
 
 **Purpose:** Let worlds remember and gently evolve with returning visitors.
 

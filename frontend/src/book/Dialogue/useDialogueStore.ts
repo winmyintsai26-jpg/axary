@@ -1,6 +1,8 @@
 import { create } from 'zustand'
 
-import type { DialogueMessage, DialogueThread } from './types'
+import { MirrorDialogueManager } from '../../systems/Conversation/DialogueManager'
+import { ScriptedCuratorGuide } from '../../systems/Curator/ScriptedCuratorGuide'
+import type { DialogueDraft, DialogueThread } from './types'
 
 const initialTime = new Date().toISOString()
 
@@ -11,13 +13,13 @@ const initialThread: DialogueThread = {
     {
       id: 'welcome',
       speaker: 'curator',
-      text: 'Welcome. There is no right way to begin.',
+      text: 'Welcome. There is no right way to begin. You may notice different meanings as you continue.',
       timestamp: initialTime,
     },
     {
       id: 'becoming',
       speaker: 'curator',
-      text: 'These worlds are still becoming, just as you are.',
+      text: 'These worlds are still becoming. I wonder what their changes may come to mean as your journey continues.',
       timestamp: initialTime,
     },
   ],
@@ -25,27 +27,41 @@ const initialThread: DialogueThread = {
 
 interface DialogueState {
   activeThread: DialogueThread
-  addMessage: (message: Omit<DialogueMessage, 'id' | 'timestamp'>) => void
+  addMessage: (message: DialogueDraft) => void
+  askCurator: (question: string, worldId?: string) => Promise<void>
   isCuratorOpen: boolean
   setCuratorOpen: (isOpen: boolean) => void
 }
+
+const dialogueManager = new MirrorDialogueManager()
+const curatorGuide = new ScriptedCuratorGuide()
 
 export const useDialogueStore = create<DialogueState>((set) => ({
   activeThread: initialThread,
   isCuratorOpen: false,
   addMessage: (message) =>
     set((state) => ({
-      activeThread: {
-        ...state.activeThread,
-        messages: [
-          ...state.activeThread.messages,
-          {
-            ...message,
-            id: crypto.randomUUID(),
-            timestamp: new Date().toISOString(),
-          },
-        ],
-      },
+      activeThread: dialogueManager.append(state.activeThread, message),
     })),
+  askCurator: async (question, worldId) => {
+    const travelerDraft: DialogueDraft = {
+      speaker: 'traveler',
+      text: question,
+    }
+    set((state) => ({
+      activeThread: dialogueManager.append(state.activeThread, travelerDraft),
+    }))
+
+    const history = useDialogueStore.getState().activeThread
+    const response = await curatorGuide.respond({
+      history,
+      visitorQuestion: question,
+      worldId,
+    })
+
+    set((state) => ({
+      activeThread: dialogueManager.append(state.activeThread, response),
+    }))
+  },
   setCuratorOpen: (isCuratorOpen) => set({ isCuratorOpen }),
 }))

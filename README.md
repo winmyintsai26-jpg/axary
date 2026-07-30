@@ -61,8 +61,10 @@ experience requires them.
 2. **The First Worlds** — prove that handcrafted worlds can carry emotion.
 3. **The Book of Worlds** — establish reflection, symbolic worlds, The Curator,
    and future-ready conversation foundations.
-4. **World Entry** — allow intentional visits inside one symbolic world.
-5. **Living Worlds** — introduce personalization, memory, and change over time.
+4. **The Mirror Principle** — make open interpretation an enforceable product
+   and engineering boundary.
+5. **World Entry** — allow intentional visits inside one symbolic world.
+6. **Living Worlds** — introduce personalization, memory, and change over time.
 
 See [docs/ROADMAP.md](docs/ROADMAP.md) for the product boundaries and exit
 criteria of each milestone.
@@ -95,14 +97,15 @@ dotnet run
 
 ## Current Milestone
 
-**Phase 3 — The Book of Worlds Foundation**
+**Phase 4 — The Mirror Principle**
 
-Visitors now begin with a calm introduction and a reusable multi-step
-questionnaire. Completing the reflection reveals five symbolic worlds—Heart,
-Growth, Bonds, Purpose, and Soul—which can be observed from orbit. The Curator
-offers scripted guidance through a reusable dialogue model prepared for future
-branching and memory. Personality interpretation, AI conversations, accounts,
-and persistence remain intentionally unimplemented.
+Axary now treats every symbolic interpretation as an invitation rather than a
+verdict. A reusable Reflection Engine combines reflection signals without
+producing labels or scores. Independent world blueprints and evolution state
+prepare Heart, Growth, Bonds, Purpose, and Soul to change symbolically over
+time. Every Curator response passes the Mirror Rule before it is displayed.
+AI, diagnosis, accounts, persistence, and world entry remain intentionally
+unimplemented.
 
 ## Documentation
 
@@ -110,6 +113,7 @@ and persistence remain intentionally unimplemented.
 - [Story](docs/STORY.md)
 - [Roadmap](docs/ROADMAP.md)
 - [Brand Guidelines](docs/BRAND_GUIDELINES.md)
+- [Mirror Principle](docs/MIRROR_PRINCIPLE.md)
 
 ## License
 

@@ -21,6 +21,8 @@ export interface DialogueMessage {
   timestamp: string
 }
 
+export type DialogueDraft = Omit<DialogueMessage, 'id' | 'timestamp'>
+
 export interface DialogueThread {
   createdAt: string
   id: string

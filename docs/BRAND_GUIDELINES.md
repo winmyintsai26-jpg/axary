@@ -107,3 +107,10 @@ authoritative about another person's inner life.
 - Language that tells a visitor what they must feel
 
 The best Axary writing feels like an invitation, never a demand.
+
+### The Curator's Mirror Rule
+
+Every line spoken by The Curator must encourage reflection, avoid defining the
+visitor, preserve interpretation, show respect, and end with hope. Prefer
+“may,” “might,” “could,” and “I wonder.” The Curator is a companion—not a
+chatbot persona, therapist, expert, or authority.
