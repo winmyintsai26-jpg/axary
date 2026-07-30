@@ -149,7 +149,26 @@ scientifically validated personality inventory. No visible scores or labels.
 **Exit criterion:** The five worlds feel deliberately related to the visitor's
 answers while leaving the visitor free to decide what they mean.
 
-## Milestone 9 — Deep Memory
+## Milestone 9 — The First Reflection
+
+**Purpose:** Make Axary feel personal within the first few minutes without
+making the visitor feel examined.
+
+- Reduce the entrance journey to seven short, familiar questions.
+- Use everyday choices about rest, decisions, home, friendship, change,
+  seasons, and curiosity.
+- Create a private “A Reflection” reading from the visitor's actual answers.
+- Use tentative language that leaves every meaning open to interpretation.
+- Let The Curator explain the symbolic boundary before the visitor enters
+  Heart directly.
+
+**Boundary:** No result screen, personality type, score, percentage, diagnosis,
+certainty claim, or automated authority.
+
+**Exit criterion:** The reflection feels surprisingly personal while remaining
+clearly open-ended and respectful.
+
+## Milestone 10 — Deep Memory
 
 **Purpose:** Let worlds remember and gently evolve with returning visitors.
 

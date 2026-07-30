@@ -16,12 +16,18 @@ export function UniverseScene({ reducedMotion }: UniverseSceneProps) {
   const journeyPhase = useJourneyStore((state) => state.journeyPhase)
   const isInHeartWorld =
     journeyPhase === 'entering-heart' || journeyPhase === 'heart-world'
+  const showBookLights =
+    journeyPhase === 'book' ||
+    journeyPhase === 'focusing' ||
+    journeyPhase === 'returning'
+  const showBookWorld = journeyPhase === 'focusing' || journeyPhase === 'orbiting'
 
   return (
     <div className="star-canvas">
       <Canvas
         camera={{ position: [0, 0.2, 18], fov: 48, near: 0.1, far: 120 }}
-        dpr={[1, 1.6]}
+        dpr={[1, 1.35]}
+        performance={{ min: 0.65 }}
         gl={{
           alpha: true,
           antialias: true,
@@ -36,8 +42,8 @@ export function UniverseScene({ reducedMotion }: UniverseSceneProps) {
           {!isInHeartWorld && (
             <directionalLight position={[5, 7, 8]} intensity={1.5} color="#ffe0aa" />
           )}
-          <BookLights reducedMotion={reducedMotion} />
-          <BookWorlds reducedMotion={reducedMotion} />
+          {showBookLights && <BookLights reducedMotion={reducedMotion} />}
+          {showBookWorld && <BookWorlds reducedMotion={reducedMotion} />}
           {isInHeartWorld && <HeartWorld reducedMotion={reducedMotion} />}
           <CinematicCameraRig reducedMotion={reducedMotion} />
         </Suspense>

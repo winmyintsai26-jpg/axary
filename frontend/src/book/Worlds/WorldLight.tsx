@@ -13,6 +13,7 @@ interface WorldLightProps {
 const phaseOpacity = {
   introduction: 0,
   questionnaire: 0,
+  reflection: 0,
   book: 1,
   focusing: 1,
   orbiting: 0,

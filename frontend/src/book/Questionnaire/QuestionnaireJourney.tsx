@@ -273,7 +273,7 @@ export function QuestionnaireJourney({ reducedMotion }: QuestionnaireJourneyProp
           {isLastQuestion
             ? isInterpreting
               ? 'Listening…'
-              : 'Reveal My Worlds'
+              : 'See My Reflection'
             : 'Continue'}
         </JourneyButton>
       </div>

@@ -15,13 +15,13 @@ const initialThread: DialogueThread = {
     {
       id: 'welcome',
       speaker: 'curator',
-      text: 'Welcome. There is no right way to begin. You may notice different meanings as you continue.',
+      text: 'Welcome. These worlds are one symbolic interpretation of your reflections. They are not meant to define you.',
       timestamp: initialTime,
     },
     {
       id: 'becoming',
       speaker: 'curator',
-      text: 'These worlds are still becoming. I wonder what their changes may come to mean as your journey continues.',
+      text: 'As you grow, your worlds may grow with you. Walk slowly. Some answers are easier to see than to explain.',
       timestamp: initialTime,
     },
   ],

@@ -4,6 +4,7 @@ import { Curator } from '../../book/Curator/Curator'
 import { useJourneyStore } from '../../book/Journey/useJourneyStore'
 import { useLivingWorldStore } from '../../book/LivingWorld/useLivingWorldStore'
 import { QuestionnaireJourney } from '../../book/Questionnaire/QuestionnaireJourney'
+import { FirstReflection } from '../../book/Reflection/FirstReflection'
 import { symbolicWorlds } from '../../book/Worlds/worlds'
 import { AudioProvider } from '../../systems/Audio/AudioProvider'
 import { useAudio } from '../../systems/Audio/useAudio'
@@ -15,7 +16,9 @@ function BookOfWorldsExperience() {
   const reduceMotion = Boolean(useReducedMotion())
   const journeyPhase = useJourneyStore((state) => state.journeyPhase)
   const beginJourney = useJourneyStore((state) => state.beginJourney)
+  const beginHeartArrival = useJourneyStore((state) => state.beginHeartArrival)
   const enterHeartWorld = useJourneyStore((state) => state.enterHeartWorld)
+  const answers = useJourneyStore((state) => state.answers)
   const selectedWorldId = useJourneyStore((state) => state.selectedWorldId)
   const hoveredWorldId = useJourneyStore((state) => state.hoveredWorldId)
   const returnToBook = useJourneyStore((state) => state.returnToBook)
@@ -45,6 +48,11 @@ function BookOfWorldsExperience() {
   const enterHeart = () => {
     void audio.enterHeartWorld()
     enterHeartWorld()
+  }
+
+  const continueFromReflection = () => {
+    void audio.enterHeartWorld()
+    beginHeartArrival()
   }
 
   return (
@@ -92,6 +100,15 @@ function BookOfWorldsExperience() {
           >
             <QuestionnaireJourney reducedMotion={reduceMotion} />
           </motion.div>
+        )}
+
+        {journeyPhase === 'reflection' && (
+          <FirstReflection
+            key="first-reflection"
+            answers={answers}
+            onContinue={continueFromReflection}
+            reducedMotion={reduceMotion}
+          />
         )}
       </AnimatePresence>
 

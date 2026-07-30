@@ -33,8 +33,12 @@ export const useHeartWorldStore = create<HeartWorldState>((set) => ({
     })),
   restAt: (activeLocation, destination) =>
     set({ activeLocation, destination, isResting: true }),
-  setActiveLocation: (activeLocation) => set({ activeLocation }),
+  setActiveLocation: (activeLocation) =>
+    set((state) =>
+      state.activeLocation === activeLocation ? state : { activeLocation },
+    ),
   setDestination: (destination) => set({ destination, isResting: false }),
-  setHeartTime: (heartTime) => set({ heartTime }),
+  setHeartTime: (heartTime) =>
+    set((state) => (state.heartTime === heartTime ? state : { heartTime })),
   stand: () => set({ isResting: false }),
 }))

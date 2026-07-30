@@ -10,6 +10,10 @@ interface CinematicCameraRigProps {
 }
 
 const universePosition = new THREE.Vector3(0, 0.2, 18)
+const origin = new THREE.Vector3()
+const approachOffset = new THREE.Vector3(0.4, 1.15, 7.1)
+const arrivalPosition = new THREE.Vector3(0, 2.2, 9)
+const arrivalTarget = new THREE.Vector3(0, 1.15, 0)
 
 export function CinematicCameraRig({ reducedMotion }: CinematicCameraRigProps) {
   const camera = useThree((state) => state.camera)
@@ -18,18 +22,19 @@ export function CinematicCameraRig({ reducedMotion }: CinematicCameraRigProps) {
   const setJourneyPhase = useJourneyStore((state) => state.setJourneyPhase)
   const currentLookAt = useRef(new THREE.Vector3(0, 0, 0))
   const orbitAngle = useRef(0)
+  const target = useRef(new THREE.Vector3())
+  const desiredPosition = useRef(new THREE.Vector3())
 
   useFrame((state, delta) => {
     const elapsed = state.clock.elapsedTime
     const selectedWorld = symbolicWorlds.find((world) => world.id === selectedWorldId)
-    const target = selectedWorld
-      ? new THREE.Vector3(...selectedWorld.position)
-      : new THREE.Vector3(0, 0, 0)
+    target.current.fromArray(selectedWorld?.position ?? [0, 0, 0])
     const smoothing = 1 - Math.exp(-delta * (reducedMotion ? 5 : 1.35))
 
     if (
       journeyPhase === 'introduction' ||
       journeyPhase === 'questionnaire' ||
+      journeyPhase === 'reflection' ||
       journeyPhase === 'book'
     ) {
       camera.position.set(
@@ -37,14 +42,14 @@ export function CinematicCameraRig({ reducedMotion }: CinematicCameraRigProps) {
         0.2 + Math.sin(elapsed * 0.11) * 0.045,
         universePosition.z,
       )
-      currentLookAt.current.lerp(new THREE.Vector3(0, 0, 0), 0.035)
+      currentLookAt.current.lerp(origin, 0.035)
       camera.lookAt(currentLookAt.current)
       return
     }
 
     if (journeyPhase === 'returning') {
       camera.position.lerp(universePosition, smoothing)
-      currentLookAt.current.lerp(new THREE.Vector3(0, 0, 0), smoothing)
+      currentLookAt.current.lerp(origin, smoothing)
       camera.lookAt(currentLookAt.current)
       if (camera.position.distanceTo(universePosition) < 0.08) {
         setJourneyPhase('book')
@@ -58,8 +63,6 @@ export function CinematicCameraRig({ reducedMotion }: CinematicCameraRigProps) {
     }
 
     if (journeyPhase === 'entering-heart') {
-      const arrivalPosition = new THREE.Vector3(0, 2.2, 9)
-      const arrivalTarget = new THREE.Vector3(0, 1.15, 0)
       camera.position.lerp(arrivalPosition, 1 - Math.exp(-delta * 0.72))
       currentLookAt.current.lerp(arrivalTarget, 1 - Math.exp(-delta * 0.8))
       camera.lookAt(currentLookAt.current)
@@ -72,14 +75,14 @@ export function CinematicCameraRig({ reducedMotion }: CinematicCameraRigProps) {
     if (journeyPhase === 'heart-world') return
 
     if (journeyPhase === 'focusing') {
-      const approachPosition = target.clone().add(new THREE.Vector3(0.4, 1.15, 7.1))
-      camera.position.lerp(approachPosition, smoothing)
-      currentLookAt.current.lerp(target, smoothing)
+      desiredPosition.current.copy(target.current).add(approachOffset)
+      camera.position.lerp(desiredPosition.current, smoothing)
+      currentLookAt.current.lerp(target.current, smoothing)
       camera.lookAt(currentLookAt.current)
-      if (camera.position.distanceTo(approachPosition) < 0.12) {
+      if (camera.position.distanceTo(desiredPosition.current) < 0.12) {
         orbitAngle.current = Math.atan2(
-          camera.position.x - target.x,
-          camera.position.z - target.z,
+          camera.position.x - target.current.x,
+          camera.position.z - target.current.z,
         )
         setJourneyPhase('orbiting')
       }
@@ -87,17 +90,13 @@ export function CinematicCameraRig({ reducedMotion }: CinematicCameraRigProps) {
     }
 
     orbitAngle.current += reducedMotion ? 0 : delta * 0.055
-    const desiredPosition = target
-      .clone()
-      .add(
-        new THREE.Vector3(
-          Math.sin(orbitAngle.current) * 7,
-          1.35 + Math.sin(elapsed * 0.14) * 0.12,
-          Math.cos(orbitAngle.current) * 7,
-        ),
-      )
-    camera.position.lerp(desiredPosition, 1 - Math.exp(-delta * 1.1))
-    currentLookAt.current.lerp(target, 1 - Math.exp(-delta * 1.5))
+    desiredPosition.current.set(
+      target.current.x + Math.sin(orbitAngle.current) * 7,
+      target.current.y + 1.35 + Math.sin(elapsed * 0.14) * 0.12,
+      target.current.z + Math.cos(orbitAngle.current) * 7,
+    )
+    camera.position.lerp(desiredPosition.current, 1 - Math.exp(-delta * 1.1))
+    currentLookAt.current.lerp(target.current, 1 - Math.exp(-delta * 1.5))
     camera.lookAt(currentLookAt.current)
   })
 

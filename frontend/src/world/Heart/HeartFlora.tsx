@@ -11,48 +11,87 @@ function seededRandom(seed: number) {
   }
 }
 
-function CherryTree({
-  old = false,
-  position,
-  scale = 1,
-}: {
-  old?: boolean
-  position: [number, number, number]
-  scale?: number
-}) {
+const cherryTrees = [
+  { old: true, position: [-4.3, 0.08, -1.5], scale: 1.22 },
+  { position: [-6.1, 0.05, 2.4], scale: 0.88 },
+  { position: [4.8, 0.08, -3], scale: 0.96 },
+  { position: [6.4, 0.04, 1.1], scale: 0.78 },
+  { position: [-1.9, 0.03, -6.8], scale: 0.72 },
+  { position: [2.3, 0.04, 5.8], scale: 0.68 },
+] as const
+
+const canopyLayers = [
+  { color: '#f7a8c4', offset: [-0.48, 2.05, 0.02], size: 0.82 },
+  { color: '#f8bbd9', offset: [0.42, 2.15, -0.1], size: 0.92 },
+  { color: '#fff5f8', offset: [0, 2.58, 0.05], size: 0.78 },
+  { color: '#f48fb1', offset: [0.7, 1.85, 0.18], size: 0.58 },
+  { color: '#f7a8c4', offset: [-0.76, 1.75, -0.14], size: 0.62 },
+] as const
+
+function InstancedCherryTrees() {
+  const trunks = useRef<THREE.InstancedMesh>(null)
+  const canopies = useRef<Array<THREE.InstancedMesh | null>>([])
+  const dummy = useMemo(() => new THREE.Object3D(), [])
+
+  useLayoutEffect(() => {
+    cherryTrees.forEach((tree, treeIndex) => {
+      const [x, y, z] = tree.position
+      dummy.position.set(x, y + 1.05 * tree.scale, z)
+      dummy.rotation.set(0, 0, 0)
+      dummy.scale.set(
+        tree.scale * ('old' in tree && tree.old ? 1.65 : 1),
+        tree.scale,
+        tree.scale * ('old' in tree && tree.old ? 1.65 : 1),
+      )
+      dummy.updateMatrix()
+      trunks.current?.setMatrixAt(treeIndex, dummy.matrix)
+
+      canopyLayers.forEach((layer, layerIndex) => {
+        dummy.position.set(
+          x + layer.offset[0] * tree.scale,
+          y + layer.offset[1] * tree.scale,
+          z + layer.offset[2] * tree.scale,
+        )
+        dummy.scale.setScalar(layer.size * tree.scale)
+        dummy.updateMatrix()
+        canopies.current[layerIndex]?.setMatrixAt(treeIndex, dummy.matrix)
+      })
+    })
+    if (trunks.current) trunks.current.instanceMatrix.needsUpdate = true
+    canopies.current.forEach((canopy) => {
+      if (canopy) canopy.instanceMatrix.needsUpdate = true
+    })
+  }, [dummy])
+
   return (
-    <group
-      position={position}
-      scale={scale}
-      name={old ? 'The Old Cherry Tree' : undefined}
-    >
-      <mesh castShadow position={[0, 1.05, 0]}>
-        <cylinderGeometry args={[old ? 0.24 : 0.14, old ? 0.36 : 0.24, 2.1, 9]} />
+    <>
+      <instancedMesh
+        ref={trunks}
+        args={[undefined, undefined, cherryTrees.length]}
+        castShadow
+      >
+        <cylinderGeometry args={[0.14, 0.24, 2.1, 9]} />
         <meshStandardMaterial color="#62443e" roughness={1} />
-      </mesh>
-      {[
-        [-0.48, 2.05, 0.02, '#f7a8c4', 0.82],
-        [0.42, 2.15, -0.1, '#f8bbd9', 0.92],
-        [0, 2.58, 0.05, '#fff5f8', 0.78],
-        [0.7, 1.85, 0.18, '#f48fb1', 0.58],
-        [-0.76, 1.75, -0.14, '#f7a8c4', 0.62],
-      ].map(([x, y, z, color, size], index) => (
-        <mesh
-          key={index}
+      </instancedMesh>
+      {canopyLayers.map((layer, index) => (
+        <instancedMesh
+          key={`${layer.color}-${index}`}
+          ref={(mesh) => {
+            canopies.current[index] = mesh
+          }}
+          args={[undefined, undefined, cherryTrees.length]}
           castShadow
-          position={[x as number, y as number, z as number]}
-          scale={size as number}
         >
           <dodecahedronGeometry args={[0.72, 1]} />
           <meshStandardMaterial
-            color={color as string}
+            color={layer.color}
             emissive="#ec6fa9"
             emissiveIntensity={index === 2 ? 0.1 : 0.035}
             roughness={0.94}
           />
-        </mesh>
+        </instancedMesh>
       ))}
-    </group>
+    </>
   )
 }
 
@@ -177,12 +216,7 @@ export function HeartFlora({ reducedMotion }: { reducedMotion: boolean }) {
   return (
     <group name="Heart World flora">
       <group ref={trees}>
-        <CherryTree old position={[-4.3, 0.08, -1.5]} scale={1.22} />
-        <CherryTree position={[-6.1, 0.05, 2.4]} scale={0.88} />
-        <CherryTree position={[4.8, 0.08, -3]} scale={0.96} />
-        <CherryTree position={[6.4, 0.04, 1.1]} scale={0.78} />
-        <CherryTree position={[-1.9, 0.03, -6.8]} scale={0.72} />
-        <CherryTree position={[2.3, 0.04, 5.8]} scale={0.68} />
+        <InstancedCherryTrees />
       </group>
       <MeadowLife reducedMotion={reducedMotion} />
       <FallingPetals reducedMotion={reducedMotion} />

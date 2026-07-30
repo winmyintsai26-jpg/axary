@@ -69,6 +69,8 @@ experience requires them.
 7. **The Heart World** — establish the finished-world quality benchmark.
 8. **The Reflection Journey** — deepen symbolic personalization without labels
    or visible scores.
+9. **The First Reflection** — turn seven simple answers into a gentle,
+   open-ended welcome before entering Heart.
 
 See [docs/ROADMAP.md](docs/ROADMAP.md) for the product boundaries and exit
 criteria of each milestone.
@@ -101,14 +103,13 @@ dotnet run
 
 ## Current Milestone
 
-**Phase 8 — The Reflection Journey**
+**Phase 9 — The First Reflection**
 
-Axary now begins with an original, multi-format reflection experience spanning
-energy, decisions, relationships, creativity, purpose, conflict, change,
-reflection, curiosity, and values. Answers form a private pattern of symbolic
-influences for architecture, weather, lighting, color, vegetation, music,
-atmosphere, and landmarks. No personality label, score, diagnosis, comparison,
-or claim of clinical validity is produced or shown.
+Axary now begins with seven short, everyday questions designed to take two or
+three minutes. The visitor receives “A Reflection”: a private, gently worded
+reading that responds to their choices without presenting a result, type,
+score, or diagnosis. The Curator clarifies that the worlds are only one
+symbolic interpretation, then the visitor enters the Heart World directly.
 
 ## Documentation
 
@@ -118,6 +119,7 @@ or claim of clinical validity is produced or shown.
 - [Brand Guidelines](docs/BRAND_GUIDELINES.md)
 - [Mirror Principle](docs/MIRROR_PRINCIPLE.md)
 - [Reflection Journey](docs/REFLECTION_JOURNEY.md)
+- [Performance Pass](docs/PERFORMANCE.md)
 
 ## License
 

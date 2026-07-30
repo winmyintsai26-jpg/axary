@@ -6,6 +6,7 @@ import type { QuestionnaireResponse, QuestionAnswer } from '../Questionnaire/typ
 export type JourneyPhase =
   | 'introduction'
   | 'questionnaire'
+  | 'reflection'
   | 'book'
   | 'focusing'
   | 'orbiting'
@@ -19,6 +20,7 @@ interface JourneyState {
   hoveredWorldId: string | null
   journeyPhase: JourneyPhase
   answerQuestion: (questionId: string, answer: QuestionAnswer) => void
+  beginHeartArrival: () => void
   beginJourney: () => void
   completeQuestionnaire: () => void
   enterHeartWorld: () => void
@@ -50,7 +52,18 @@ export const useJourneyStore = create<JourneyState>((set) => ({
       },
     })),
   beginJourney: () => set({ journeyPhase: 'questionnaire' }),
-  completeQuestionnaire: () => set({ journeyPhase: 'book' }),
+  beginHeartArrival: () =>
+    set({
+      hoveredWorldId: null,
+      journeyPhase: 'entering-heart',
+      selectedWorldId: 'heart',
+    }),
+  completeQuestionnaire: () =>
+    set({
+      hoveredWorldId: null,
+      journeyPhase: 'reflection',
+      selectedWorldId: 'heart',
+    }),
   enterHeartWorld: () =>
     set((state) =>
       state.selectedWorldId === 'heart' ? { journeyPhase: 'entering-heart' } : state,

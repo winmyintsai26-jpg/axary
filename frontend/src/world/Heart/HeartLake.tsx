@@ -1,29 +1,50 @@
 import { useFrame } from '@react-three/fiber'
-import { useMemo, useRef } from 'react'
+import { useLayoutEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
 import { waterFragmentShader, waterVertexShader } from '../../shaders/water'
 import { useHeartWorldStore } from './useHeartWorldStore'
 
-function Fish({ offset }: { offset: number }) {
-  const group = useRef<THREE.Group>(null)
+const daylightDeep = new THREE.Color('#536f78')
+const moonlightDeep = new THREE.Color('#263f58')
+const daylightSurface = new THREE.Color('#e2d3d7')
+const moonlightSurface = new THREE.Color('#8ca8c4')
+const fishOffsets = [0.3, 2.2, 4.4, 5.8]
+const fishColors = [new THREE.Color('#f2d4ad'), new THREE.Color('#e99c72')]
+
+function FishSchool({ reducedMotion }: { reducedMotion: boolean }) {
+  const fish = useRef<THREE.InstancedMesh>(null)
+  const dummy = useMemo(() => new THREE.Object3D(), [])
+
+  useLayoutEffect(() => {
+    fishOffsets.forEach((_, index) => {
+      fish.current?.setColorAt(index, fishColors[index % fishColors.length]!)
+    })
+    if (fish.current?.instanceColor) fish.current.instanceColor.needsUpdate = true
+  }, [])
+
   useFrame((state) => {
-    if (!group.current) return
-    const angle = state.clock.elapsedTime * 0.22 + offset
-    group.current.position.set(
-      -3.1 + Math.cos(angle) * (1.4 + (offset % 2) * 0.25),
-      0.08,
-      -0.5 + Math.sin(angle) * 1.05,
-    )
-    group.current.rotation.y = -angle
+    if (!fish.current) return
+    fishOffsets.forEach((offset, index) => {
+      const angle = (reducedMotion ? 0 : state.clock.elapsedTime * 0.22) + offset
+      dummy.position.set(
+        -3.1 + Math.cos(angle) * (1.4 + (offset % 2) * 0.25),
+        0.08,
+        -0.5 + Math.sin(angle) * 1.05,
+      )
+      dummy.rotation.set(0, -angle, Math.PI / 2)
+      dummy.scale.setScalar(0.16)
+      dummy.updateMatrix()
+      fish.current?.setMatrixAt(index, dummy.matrix)
+    })
+    fish.current.instanceMatrix.needsUpdate = true
   })
+
   return (
-    <group ref={group} scale={0.16}>
-      <mesh rotation={[0, 0, Math.PI / 2]}>
-        <coneGeometry args={[0.3, 0.9, 8]} />
-        <meshStandardMaterial color={offset % 2 ? '#e99c72' : '#f2d4ad'} />
-      </mesh>
-    </group>
+    <instancedMesh ref={fish} args={[undefined, undefined, fishOffsets.length]}>
+      <coneGeometry args={[0.3, 0.9, 8]} />
+      <meshStandardMaterial vertexColors />
+    </instancedMesh>
   )
 }
 
@@ -45,11 +66,11 @@ export function HeartLake({ reducedMotion }: { reducedMotion: boolean }) {
     material.current.uniforms.uTime!.value = state.clock.elapsedTime
     const moonlit = heartTime === 'moonlight'
     material.current.uniforms.uDeepColor!.value.lerp(
-      new THREE.Color(moonlit ? '#263f58' : '#536f78'),
+      moonlit ? moonlightDeep : daylightDeep,
       0.01,
     )
     material.current.uniforms.uLightColor!.value.lerp(
-      new THREE.Color(moonlit ? '#8ca8c4' : '#e2d3d7'),
+      moonlit ? moonlightSurface : daylightSurface,
       0.01,
     )
   })
@@ -71,9 +92,7 @@ export function HeartLake({ reducedMotion }: { reducedMotion: boolean }) {
         <ringGeometry args={[2.34, 2.55, 64]} />
         <meshStandardMaterial color="#8a9275" roughness={1} />
       </mesh>
-      {[0.3, 2.2, 4.4, 5.8].map((offset) => (
-        <Fish key={offset} offset={offset} />
-      ))}
+      <FishSchool reducedMotion={reducedMotion} />
     </group>
   )
 }

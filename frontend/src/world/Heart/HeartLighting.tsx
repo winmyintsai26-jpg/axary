@@ -5,38 +5,38 @@ import * as THREE from 'three'
 import { useHeartWorldStore, type HeartTime } from './useHeartWorldStore'
 
 const phases: {
-  ambient: string
-  background: string
-  directional: string
-  fog: string
+  ambient: THREE.Color
+  background: THREE.Color
+  directional: THREE.Color
+  fog: THREE.Color
   name: HeartTime
 }[] = [
   {
-    ambient: '#c8d3dd',
-    background: '#b9c9d3',
-    directional: '#ffd6b1',
-    fog: '#d6d6d2',
+    ambient: new THREE.Color('#c8d3dd'),
+    background: new THREE.Color('#b9c9d3'),
+    directional: new THREE.Color('#ffd6b1'),
+    fog: new THREE.Color('#d6d6d2'),
     name: 'sunrise',
   },
   {
-    ambient: '#d9cad1',
-    background: '#d6a9a6',
-    directional: '#ffd08d',
-    fog: '#d4b6b1',
+    ambient: new THREE.Color('#d9cad1'),
+    background: new THREE.Color('#d6a9a6'),
+    directional: new THREE.Color('#ffd08d'),
+    fog: new THREE.Color('#d4b6b1'),
     name: 'golden-hour',
   },
   {
-    ambient: '#b59aaa',
-    background: '#815d79',
-    directional: '#f4a06f',
-    fog: '#96788b',
+    ambient: new THREE.Color('#b59aaa'),
+    background: new THREE.Color('#815d79'),
+    directional: new THREE.Color('#f4a06f'),
+    fog: new THREE.Color('#96788b'),
     name: 'sunset',
   },
   {
-    ambient: '#71839e',
-    background: '#18243a',
-    directional: '#a9c8e6',
-    fog: '#334058',
+    ambient: new THREE.Color('#71839e'),
+    background: new THREE.Color('#18243a'),
+    directional: new THREE.Color('#a9c8e6'),
+    fog: new THREE.Color('#334058'),
     name: 'moonlight',
   },
 ]
@@ -65,26 +65,10 @@ export function HeartLighting({ reducedMotion }: { reducedMotion: boolean }) {
     const localProgress = (cycle % 75) / 75
     const blend = THREE.MathUtils.smoothstep(localProgress, 0.25, 0.9)
 
-    colors.ambient.lerpColors(
-      new THREE.Color(phase.ambient),
-      new THREE.Color(nextPhase.ambient),
-      blend,
-    )
-    colors.background.lerpColors(
-      new THREE.Color(phase.background),
-      new THREE.Color(nextPhase.background),
-      blend,
-    )
-    colors.directional.lerpColors(
-      new THREE.Color(phase.directional),
-      new THREE.Color(nextPhase.directional),
-      blend,
-    )
-    colors.fog.lerpColors(
-      new THREE.Color(phase.fog),
-      new THREE.Color(nextPhase.fog),
-      blend,
-    )
+    colors.ambient.lerpColors(phase.ambient, nextPhase.ambient, blend)
+    colors.background.lerpColors(phase.background, nextPhase.background, blend)
+    colors.directional.lerpColors(phase.directional, nextPhase.directional, blend)
+    colors.fog.lerpColors(phase.fog, nextPhase.fog, blend)
 
     if (ambient.current) ambient.current.color.lerp(colors.ambient, delta * 0.8)
     if (sun.current) {

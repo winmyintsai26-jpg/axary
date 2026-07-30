@@ -1,6 +1,10 @@
-import { useMemo } from 'react'
+import { useLayoutEffect, useMemo, useRef } from 'react'
+import * as THREE from 'three'
 
 function WindingPath() {
+  const paleStones = useRef<THREE.InstancedMesh>(null)
+  const warmStones = useRef<THREE.InstancedMesh>(null)
+  const dummy = useMemo(() => new THREE.Object3D(), [])
   const stones = useMemo(
     () =>
       Array.from({ length: 30 }, (_, index) => {
@@ -18,23 +22,36 @@ function WindingPath() {
     [],
   )
 
+  useLayoutEffect(() => {
+    let paleIndex = 0
+    let warmIndex = 0
+    stones.forEach((stone, index) => {
+      dummy.position.fromArray(stone.position)
+      dummy.rotation.set(-Math.PI / 2, 0, stone.rotation)
+      dummy.scale.set(stone.scale, stone.scale * 0.66, 1)
+      dummy.updateMatrix()
+      if (index % 2) {
+        paleStones.current?.setMatrixAt(paleIndex, dummy.matrix)
+        paleIndex += 1
+      } else {
+        warmStones.current?.setMatrixAt(warmIndex, dummy.matrix)
+        warmIndex += 1
+      }
+    })
+    if (paleStones.current) paleStones.current.instanceMatrix.needsUpdate = true
+    if (warmStones.current) warmStones.current.instanceMatrix.needsUpdate = true
+  }, [dummy, stones])
+
   return (
     <group name="The winding path">
-      {stones.map((stone, index) => (
-        <mesh
-          key={index}
-          position={stone.position}
-          rotation={[-Math.PI / 2, 0, stone.rotation]}
-          scale={[stone.scale, stone.scale * 0.66, 1]}
-          receiveShadow
-        >
-          <circleGeometry args={[0.28, 9]} />
-          <meshStandardMaterial
-            color={index % 2 ? '#c6b7ae' : '#d5c8bd'}
-            roughness={0.98}
-          />
-        </mesh>
-      ))}
+      <instancedMesh ref={paleStones} args={[undefined, undefined, 15]} receiveShadow>
+        <circleGeometry args={[0.28, 9]} />
+        <meshStandardMaterial color="#c6b7ae" roughness={0.98} />
+      </instancedMesh>
+      <instancedMesh ref={warmStones} args={[undefined, undefined, 15]} receiveShadow>
+        <circleGeometry args={[0.28, 9]} />
+        <meshStandardMaterial color="#d5c8bd" roughness={0.98} />
+      </instancedMesh>
     </group>
   )
 }

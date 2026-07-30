@@ -102,6 +102,7 @@ button {
 }
 
 .book-experience[data-phase='book'] .atmosphere,
+.book-experience[data-phase='reflection'] .atmosphere,
 .book-experience[data-phase='focusing'] .atmosphere,
 .book-experience[data-phase='orbiting'] .atmosphere,
 .book-experience[data-phase='returning'] .atmosphere {
@@ -534,6 +535,83 @@ button {
   gap: 1rem;
   align-items: center;
   justify-content: space-between;
+}
+
+.first-reflection {
+  position: relative;
+  z-index: 4;
+  width: min(90vw, 760px);
+  max-height: 100dvh;
+  margin: auto;
+  padding: 4.5rem 1.5rem 3rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.first-reflection::-webkit-scrollbar {
+  display: none;
+}
+
+.first-reflection h1 {
+  max-width: 680px;
+  margin: 1rem 0 1.8rem;
+  color: rgba(237, 232, 221, 0.94);
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.reflection-reading {
+  display: grid;
+  gap: 0.7rem;
+  max-width: 670px;
+}
+
+.reflection-reading p {
+  margin: 0;
+  color: rgba(199, 209, 223, 0.72);
+  font-family: var(--serif);
+  font-size: clamp(0.95rem, 1.35vw, 1.06rem);
+  line-height: 1.65;
+}
+
+.reflection-reading p:last-child {
+  margin-top: 0.45rem;
+  color: rgba(232, 215, 187, 0.78);
+  font-style: italic;
+}
+
+.curator-welcome {
+  max-width: 650px;
+  margin: 2rem 0 2.1rem;
+  padding: 1.35rem 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(248, 187, 217, 0.07),
+    rgba(230, 189, 122, 0.045)
+  );
+  border: 1px solid rgba(248, 187, 217, 0.13);
+  border-radius: 18px;
+  backdrop-filter: blur(12px);
+}
+
+.curator-welcome p {
+  margin: 0 0 0.28rem;
+  color: rgba(221, 226, 235, 0.73);
+  font-family: var(--serif);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.curator-welcome footer {
+  margin-top: 0.8rem;
+  color: rgba(248, 187, 217, 0.66);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .text-button {
@@ -1043,6 +1121,16 @@ button {
     justify-content: flex-start;
     padding-top: max(4rem, env(safe-area-inset-top));
     overflow-y: auto;
+  }
+
+  .first-reflection {
+    width: 100%;
+    padding-top: max(3.5rem, env(safe-area-inset-top));
+    padding-bottom: max(3rem, env(safe-area-inset-bottom));
+  }
+
+  .first-reflection h1 {
+    font-size: clamp(1.9rem, 8vw, 2.55rem);
   }
 
   .question-stage h1 {

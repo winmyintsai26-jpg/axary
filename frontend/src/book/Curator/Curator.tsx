@@ -31,7 +31,10 @@ export function Curator({ reducedMotion }: CuratorProps) {
   const hasAskedHeartQuestion = activeThread.messages.some(
     (message) => message.speaker === 'traveler' && message.text === heartQuestion,
   )
-  const isVisible = journeyPhase !== 'introduction'
+  const isVisible =
+    journeyPhase !== 'introduction' &&
+    journeyPhase !== 'questionnaire' &&
+    journeyPhase !== 'reflection'
   const transition = reducedMotion
     ? { duration: 0 }
     : { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const }

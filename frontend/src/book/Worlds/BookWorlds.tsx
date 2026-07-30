@@ -624,15 +624,13 @@ function SymbolicWorldPlanet({ world, reducedMotion }: SymbolicWorldProps) {
 }
 
 export function BookWorlds({ reducedMotion }: BookWorldsProps) {
+  const selectedWorldId = useJourneyStore((state) => state.selectedWorldId)
+  const selectedWorld = symbolicWorlds.find((world) => world.id === selectedWorldId)
+  if (!selectedWorld) return null
+
   return (
     <group name="The Book of Worlds">
-      {symbolicWorlds.map((world) => (
-        <SymbolicWorldPlanet
-          key={world.id}
-          world={world}
-          reducedMotion={reducedMotion}
-        />
-      ))}
+      <SymbolicWorldPlanet world={selectedWorld} reducedMotion={reducedMotion} />
     </group>
   )
 }

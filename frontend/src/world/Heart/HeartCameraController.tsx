@@ -17,18 +17,22 @@ const meaningfulPlaces: {
   { id: 'hidden-garden', position: new THREE.Vector3(7.8, 0, 3.6), radius: 2.8 },
   { id: 'overlook', position: new THREE.Vector3(4.8, 0, 5.5), radius: 2.2 },
 ]
+const upAxis = new THREE.Vector3(0, 1, 0)
 
 export function HeartCameraController({ reducedMotion }: { reducedMotion: boolean }) {
   const camera = useThree((state) => state.camera)
   const destination = useHeartWorldStore((state) => state.destination)
   const isResting = useHeartWorldStore((state) => state.isResting)
   const setActiveLocation = useHeartWorldStore((state) => state.setActiveLocation)
-  const setDestination = useHeartWorldStore((state) => state.setDestination)
   const stand = useHeartWorldStore((state) => state.stand)
   const position = useRef(new THREE.Vector3(0, 0.78, 7))
   const lookDirection = useRef(new THREE.Vector3(0, -0.12, -1))
   const pressed = useRef(new Set<string>())
   const lastStepAt = useRef(0)
+  const activeLocation = useRef<HeartLocation>('arrival')
+  const moveDirection = useRef(new THREE.Vector3())
+  const desiredCamera = useRef(new THREE.Vector3())
+  const lookTarget = useRef(new THREE.Vector3())
   const destinationVector = useMemo(
     () => new THREE.Vector3(...destination),
     [destination],
@@ -64,25 +68,22 @@ export function HeartCameraController({ reducedMotion }: { reducedMotion: boolea
       Number(keys.has('d') || keys.has('arrowright'))
 
     if (turn) {
-      lookDirection.current.applyAxisAngle(
-        new THREE.Vector3(0, 1, 0),
-        turn * delta * 1.1,
-      )
+      lookDirection.current.applyAxisAngle(upAxis, turn * delta * 1.1)
     }
 
     let moving = false
     if (forward && !isResting) {
       position.current.addScaledVector(lookDirection.current, forward * delta * 2.1)
       position.current.y = 0.78
+      destinationVector.copy(position.current)
       moving = true
-      setDestination(position.current.toArray())
     } else if (!isResting && position.current.distanceTo(destinationVector) > 0.12) {
-      const direction = destinationVector.clone().sub(position.current).setY(0)
-      if (direction.length() > 0.01) {
-        direction.normalize()
-        lookDirection.current.lerp(direction, 1 - Math.exp(-delta * 2))
+      moveDirection.current.copy(destinationVector).sub(position.current).setY(0)
+      if (moveDirection.current.length() > 0.01) {
+        moveDirection.current.normalize()
+        lookDirection.current.lerp(moveDirection.current, 1 - Math.exp(-delta * 2))
         position.current.addScaledVector(
-          direction,
+          moveDirection.current,
           Math.min(delta * 1.6, position.current.distanceTo(destinationVector)),
         )
         moving = true
@@ -101,23 +102,24 @@ export function HeartCameraController({ reducedMotion }: { reducedMotion: boolea
     }
 
     const eyeHeight = isResting ? 1.08 : 1.58
-    const desiredCamera = position.current.clone()
-    desiredCamera.y = eyeHeight
+    desiredCamera.current.copy(position.current)
+    desiredCamera.current.y = eyeHeight
     if (!reducedMotion)
-      desiredCamera.y +=
+      desiredCamera.current.y +=
         Math.sin(state.clock.elapsedTime * 1.7) * (moving ? 0.025 : 0.008)
-    camera.position.lerp(desiredCamera, 1 - Math.exp(-delta * 5))
-    camera.lookAt(
-      position.current
-        .clone()
-        .add(lookDirection.current)
-        .add(new THREE.Vector3(0, isResting ? 0.45 : 0.72, 0)),
-    )
+    camera.position.lerp(desiredCamera.current, 1 - Math.exp(-delta * 5))
+    lookTarget.current.copy(position.current).add(lookDirection.current)
+    lookTarget.current.y += isResting ? 0.45 : 0.72
+    camera.lookAt(lookTarget.current)
 
     const place = meaningfulPlaces.find(
       (candidate) => candidate.position.distanceTo(position.current) < candidate.radius,
     )
-    setActiveLocation(place?.id ?? 'arrival')
+    const nextLocation = place?.id ?? 'arrival'
+    if (activeLocation.current !== nextLocation) {
+      activeLocation.current = nextLocation
+      setActiveLocation(nextLocation)
+    }
   })
 
   return null

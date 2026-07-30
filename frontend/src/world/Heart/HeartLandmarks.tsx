@@ -1,3 +1,6 @@
+import { useLayoutEffect, useMemo, useRef } from 'react'
+import * as THREE from 'three'
+
 import { useDialogueStore } from '../../book/Dialogue/useDialogueStore'
 import { useHeartWorldStore } from './useHeartWorldStore'
 
@@ -39,21 +42,42 @@ function Lantern({ id, position }: { id: string; position: [number, number, numb
 }
 
 function WoodenBridge() {
+  const repairedPlanks = useRef<THREE.InstancedMesh>(null)
+  const originalPlanks = useRef<THREE.InstancedMesh>(null)
+  const dummy = useMemo(() => new THREE.Object3D(), [])
+
+  useLayoutEffect(() => {
+    let repairedIndex = 0
+    let originalIndex = 0
+    Array.from({ length: 12 }, (_, index) => {
+      dummy.position.set(
+        (index - 5.5) * 0.22,
+        Math.sin((index / 11) * Math.PI) * 0.18,
+        0,
+      )
+      dummy.updateMatrix()
+      if (index < 2) {
+        repairedPlanks.current?.setMatrixAt(repairedIndex, dummy.matrix)
+        repairedIndex += 1
+      } else {
+        originalPlanks.current?.setMatrixAt(originalIndex, dummy.matrix)
+        originalIndex += 1
+      }
+    })
+    if (repairedPlanks.current) repairedPlanks.current.instanceMatrix.needsUpdate = true
+    if (originalPlanks.current) originalPlanks.current.instanceMatrix.needsUpdate = true
+  }, [dummy])
+
   return (
     <group position={[-1.15, 0.3, 1.1]} rotation={[0, -0.48, 0]} name="The Bridge">
-      {Array.from({ length: 12 }, (_, index) => (
-        <mesh
-          key={index}
-          castShadow
-          position={[(index - 5.5) * 0.22, Math.sin((index / 11) * Math.PI) * 0.18, 0]}
-        >
-          <boxGeometry args={[0.2, 0.09, 1.05]} />
-          <meshStandardMaterial
-            color={index < 2 ? '#725248' : '#8b6655'}
-            roughness={0.96}
-          />
-        </mesh>
-      ))}
+      <instancedMesh ref={repairedPlanks} args={[undefined, undefined, 2]} castShadow>
+        <boxGeometry args={[0.2, 0.09, 1.05]} />
+        <meshStandardMaterial color="#725248" roughness={0.96} />
+      </instancedMesh>
+      <instancedMesh ref={originalPlanks} args={[undefined, undefined, 10]} castShadow>
+        <boxGeometry args={[0.2, 0.09, 1.05]} />
+        <meshStandardMaterial color="#8b6655" roughness={0.96} />
+      </instancedMesh>
       {[-0.5, 0.5].map((z) => (
         <group key={z} position={[0, 0.35, z]}>
           <mesh rotation={[0, 0, Math.PI / 2]}>
@@ -145,6 +169,29 @@ function RestingBench({
 }
 
 function HiddenGarden() {
+  const pinkFlowers = useRef<THREE.InstancedMesh>(null)
+  const creamFlowers = useRef<THREE.InstancedMesh>(null)
+  const dummy = useMemo(() => new THREE.Object3D(), [])
+
+  useLayoutEffect(() => {
+    let pinkIndex = 0
+    let creamIndex = 0
+    Array.from({ length: 18 }, (_, index) => {
+      const angle = (index / 18) * Math.PI * 2
+      dummy.position.set(Math.cos(angle) * 2.2, 0.18, Math.sin(angle) * 1.7)
+      dummy.updateMatrix()
+      if (index % 2) {
+        pinkFlowers.current?.setMatrixAt(pinkIndex, dummy.matrix)
+        pinkIndex += 1
+      } else {
+        creamFlowers.current?.setMatrixAt(creamIndex, dummy.matrix)
+        creamIndex += 1
+      }
+    })
+    if (pinkFlowers.current) pinkFlowers.current.instanceMatrix.needsUpdate = true
+    if (creamFlowers.current) creamFlowers.current.instanceMatrix.needsUpdate = true
+  }, [dummy])
+
   return (
     <group position={[7.8, 0.05, 3.6]} name="The Hidden Garden">
       <mesh position={[0, 1.35, 0]}>
@@ -157,22 +204,22 @@ function HiddenGarden() {
           <meshStandardMaterial color="#6b7259" roughness={1} />
         </mesh>
       ))}
-      {Array.from({ length: 18 }, (_, index) => {
-        const angle = (index / 18) * Math.PI * 2
-        return (
-          <mesh
-            key={index}
-            position={[Math.cos(angle) * 2.2, 0.18, Math.sin(angle) * 1.7]}
-          >
-            <sphereGeometry args={[0.11, 8, 6]} />
-            <meshStandardMaterial
-              color={index % 2 ? '#f8bbd9' : '#fff5f8'}
-              emissive="#ec6fa9"
-              emissiveIntensity={0.08}
-            />
-          </mesh>
-        )
-      })}
+      <instancedMesh ref={pinkFlowers} args={[undefined, undefined, 9]}>
+        <sphereGeometry args={[0.11, 8, 6]} />
+        <meshStandardMaterial
+          color="#f8bbd9"
+          emissive="#ec6fa9"
+          emissiveIntensity={0.08}
+        />
+      </instancedMesh>
+      <instancedMesh ref={creamFlowers} args={[undefined, undefined, 9]}>
+        <sphereGeometry args={[0.11, 8, 6]} />
+        <meshStandardMaterial
+          color="#fff5f8"
+          emissive="#ec6fa9"
+          emissiveIntensity={0.08}
+        />
+      </instancedMesh>
       <Lantern id="garden" position={[0, 0, -1.1]} />
     </group>
   )

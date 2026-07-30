@@ -2,10 +2,9 @@
 
 ## Purpose
 
-The Reflection Journey listens for patterns in how a visitor restores energy,
-chooses, connects, creates, handles tension, meets change, finds meaning, and
-approaches the unknown. Its output is environmental language—not a personality
-type.
+The Reflection Journey listens through seven simple questions about rest,
+decisions, home, friendship, change, seasons, and curiosity. Its output is
+environmental language and a gentle first reflection—not a personality type.
 
 Axary does not claim that this journey measures a stable psychological trait or
 offers clinical insight. It is an original reflective experience designed to
@@ -58,8 +57,7 @@ Every question must:
 
 Responses contribute softly to multiple internal dimensions. A choice can
 influence stillness and continuity at once; another can influence connection,
-expression, and harmony. Ranked answers receive gradually decreasing weight,
-while multi-select answers preserve several simultaneous priorities.
+expression, and harmony.
 
 The resulting pattern creates:
 
