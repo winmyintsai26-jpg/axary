@@ -55,3 +55,7 @@ part of them they had not visited in a long time.
 
 There is no requirement to continue. They may close the Book, carry one small
 thought home, and return when the night feels right.
+
+*If a feature makes the worlds feel more alive, more reflective, and more
+compassionate, it belongs in Axary. If it distracts from that purpose, it does
+not.*

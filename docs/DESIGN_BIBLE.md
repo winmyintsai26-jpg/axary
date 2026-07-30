@@ -104,6 +104,24 @@ coherent emotional idea, a memorable silhouette, restrained detail, and enough
 negative space to breathe. Personalization should make a world feel understood,
 never procedurally decorated.
 
+## The Heart World Benchmark
+
+Heart is Axary's first finished place and the template against which future
+worlds are judged. Its lake reflects rather than explains. Its bridge holds the
+possibility of trust. The cabin keeps a light for safety, the hidden garden
+rewards unhurried attention, and the oldest cherry tree suggests care that
+endures.
+
+The world must remain meaningful when the visitor stands still. Motion is
+layered but restrained: grass bends, branches breathe, petals drift, water
+ripples, wildlife passes, mist gathers, and light changes without demanding
+notice. Interactions offer presence—walking, sitting, watching, and lighting a
+lantern—never objectives.
+
+Future worlds should reuse the Heart World's systems, not its identity. Their
+terrain, landmarks, atmosphere, sound, symbolism, and movement must be authored
+as deliberately as Heart's.
+
 ## Community Principles
 
 - Reflection is not scored.
@@ -129,3 +147,7 @@ never procedurally decorated.
 - A personality test that reduces people to labels
 - A replacement for professional mental-health care
 - An AI authority that tells visitors who they are
+
+*If a feature makes the worlds feel more alive, more reflective, and more
+compassionate, it belongs in Axary. If it distracts from that purpose, it does
+not.*

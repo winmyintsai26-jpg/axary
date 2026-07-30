@@ -108,9 +108,28 @@ authoritative about another person's inner life.
 
 The best Axary writing feels like an invitation, never a demand.
 
+## Heart World Palette
+
+Heart uses midnight blue as quiet depth, warm timber and lantern amber for
+safety, and a layered cherry-blossom range for tenderness:
+
+- Soft Sakura Pink `#F8BBD9`
+- Blossom Pink `#F7A8C4`
+- Petal Pink `#F48FB1`
+- Warm Rose `#EC6FA9` for rare accents
+- Cream Highlight `#FFF5F8`
+
+Pink should feel botanical and sun-warmed, never neon or romantic by default.
+Moonlight cools these colors without draining them; golden hour brings forward
+their warmth.
+
 ### The Curator's Mirror Rule
 
 Every line spoken by The Curator must encourage reflection, avoid defining the
 visitor, preserve interpretation, show respect, and end with hope. Prefer
 “may,” “might,” “could,” and “I wonder.” The Curator is a companion—not a
 chatbot persona, therapist, expert, or authority.
+
+*If a feature makes the worlds feel more alive, more reflective, and more
+compassionate, it belongs in Axary. If it distracts from that purpose, it does
+not.*

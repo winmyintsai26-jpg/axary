@@ -8,6 +8,29 @@ const quietHeartResponse: DialogueDraft = {
 
 export class ScriptedCuratorGuide implements CuratorGuide {
   async respond(context: CuratorContext): Promise<DialogueDraft> {
+    if (context.newWorldEvent?.kind === 'first-bloom') {
+      return Promise.resolve({
+        speaker: 'curator',
+        text: 'They were not here before. Sometimes a place may change after it has been seen with new eyes. I wonder what these flowers could mean to you as you continue.',
+      })
+    }
+
+    if (context.newWorldEvent) {
+      const rememberedTheme = context.memories?.at(-1)?.theme
+      return Promise.resolve({
+        speaker: 'curator',
+        text: `${context.newWorldEvent.description} You may remember speaking about ${rememberedTheme ?? 'something meaningful'}. I wonder what this change could represent to you when you return.`,
+      })
+    }
+
+    const previousMemory = context.memories?.at(-1)
+    if (previousMemory) {
+      return Promise.resolve({
+        speaker: 'curator',
+        text: `Last time, you spoke about ${previousMemory.theme}. This world may hold that memory differently today. I wonder what you notice now, and what may continue changing.`,
+      })
+    }
+
     if (
       context.worldId === 'heart' &&
       context.visitorQuestion.toLowerCase().includes('quiet')

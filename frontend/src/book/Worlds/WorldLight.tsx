@@ -16,6 +16,8 @@ const phaseOpacity = {
   book: 1,
   focusing: 1,
   orbiting: 0,
+  'entering-heart': 0,
+  'heart-world': 0,
   returning: 1,
 } as const
 

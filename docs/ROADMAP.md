@@ -73,7 +73,27 @@ world entry, or generated personality profile.
 **Exit criterion:** Every layer—from dialogue wording to data types—leaves the
 visitor in authority over what feels true.
 
-## Milestone 5 — World Entry
+## Milestone 5 — The Living Mirror
+
+**Purpose:** Let symbolic worlds respond gently to reflection.
+
+- Record meaningful questions, conversations, and world changes in a private
+  journal.
+- Let The Curator remember themes without turning them into conclusions.
+- Give every world a symbolic history made of memories rather than
+  achievements.
+- Connect world state to weather, light, water, wildlife, wind, and seasonal
+  atmosphere.
+- Express reflection through blooms, bridges, lanterns, paths, rivers, fog,
+  stars, and growing trees.
+
+**Boundary:** No rewards, punishment, XP, levels, streaks, scores, diagnosis,
+prediction, AI generation, accounts, or remote persistence.
+
+**Exit criterion:** A returning visitor can notice that a world remembers
+without feeling measured, classified, or watched.
+
+## Milestone 6 — World Entry
 
 **Purpose:** Cross the threshold into one symbolic world.
 
@@ -87,7 +107,49 @@ visitor in authority over what feels true.
 **Exit criterion:** Entering the world feels intentional, safe, and emotionally
 coherent.
 
-## Milestone 6 — Living Worlds
+## Milestone 7 — The Heart World
+
+**Purpose:** Establish the artistic, emotional, and technical quality bar with
+one complete symbolic place.
+
+- Open the Heart World for unhurried walking, sitting, observation, and rest.
+- Build a living landscape around a lake, bridge, cabin, old cherry tree,
+  hidden garden, valley overlook, and distant mountains.
+- Let sunrise, golden hour, sunset, and moonlight transition continuously.
+- Give water, trees, grass, petals, clouds, mist, birds, butterflies, fish, and
+  fireflies their own quiet rhythms.
+- Make lanterns, benches, the path, and The Curator optional points of contact.
+- Establish reusable modules for terrain, flora, landmarks, atmosphere,
+  lighting, camera movement, and sound.
+
+**Boundary:** One world only; no objectives, collectibles, rewards, forced
+dialogue, AI, accounts, or remote persistence.
+
+**Exit criterion:** Ten quiet minutes in the Heart World can feel meaningful
+without a single instruction or conversation.
+
+## Milestone 8 — The Reflection Journey
+
+**Purpose:** Understand how a visitor experiences the world without reducing
+them to a type.
+
+- Replace prototype prompts with original questions across ten reflective
+  themes.
+- Support landscape and symbol preference, balanced choice, Likert response,
+  ranking, multiple selection, and optional writing.
+- Interpret patterns across answers instead of assigning personality labels.
+- Translate those patterns into independent symbolic influences for every
+  world.
+- Version question data and saved responses so the journey can grow safely.
+- Keep answers private and prohibit advertising, ranking, and comparison uses.
+
+**Boundary:** Not MBTI, a clinical assessment, diagnosis, prediction, or
+scientifically validated personality inventory. No visible scores or labels.
+
+**Exit criterion:** The five worlds feel deliberately related to the visitor's
+answers while leaving the visitor free to decide what they mean.
+
+## Milestone 9 — Deep Memory
 
 **Purpose:** Let worlds remember and gently evolve with returning visitors.
 
@@ -102,3 +164,7 @@ claims of professional mental-health treatment.
 
 **Exit criterion:** A returning visitor feels remembered without feeling
 observed or classified.
+
+*If a feature makes the worlds feel more alive, more reflective, and more
+compassionate, it belongs in Axary. If it distracts from that purpose, it does
+not.*

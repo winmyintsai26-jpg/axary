@@ -2,8 +2,10 @@ import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef } from 'react'
 import * as THREE from 'three'
 
+import { useReflectionProfileStore } from '../../systems/Reflection/useReflectionProfileStore'
 import type { WorldStyle } from '../../types/WorldStyle'
 import { useJourneyStore } from '../Journey/useJourneyStore'
+import { useLivingWorldStore } from '../LivingWorld/useLivingWorldStore'
 import type { SymbolicWorld } from './types'
 import { symbolicWorlds } from './worlds'
 
@@ -38,6 +40,94 @@ function Tree({
         <dodecahedronGeometry args={[0.27, 0]} />
         <meshStandardMaterial color={foliage} roughness={1} />
       </mesh>
+    </group>
+  )
+}
+
+function BlossomTree({
+  position,
+  scale = 1,
+}: {
+  position: [number, number, number]
+  scale?: number
+}) {
+  return (
+    <group position={position} scale={scale}>
+      <mesh position={[0, 0.25, 0]}>
+        <cylinderGeometry args={[0.045, 0.075, 0.5, 7]} />
+        <meshStandardMaterial color="#60423f" roughness={1} />
+      </mesh>
+      <mesh position={[-0.11, 0.56, 0]}>
+        <dodecahedronGeometry args={[0.24, 1]} />
+        <meshStandardMaterial color="#f7a8c4" roughness={0.9} />
+      </mesh>
+      <mesh position={[0.13, 0.59, -0.04]}>
+        <dodecahedronGeometry args={[0.27, 1]} />
+        <meshStandardMaterial color="#f8bbd9" roughness={0.9} />
+      </mesh>
+      <mesh position={[0, 0.72, 0.04]}>
+        <dodecahedronGeometry args={[0.22, 1]} />
+        <meshStandardMaterial
+          color="#fff5f8"
+          emissive="#f8bbd9"
+          emissiveIntensity={0.12}
+          roughness={0.92}
+        />
+      </mesh>
+      <mesh position={[0.24, 0.5, 0.08]}>
+        <dodecahedronGeometry args={[0.16, 0]} />
+        <meshStandardMaterial color="#f48fb1" roughness={0.9} />
+      </mesh>
+    </group>
+  )
+}
+
+function SakuraPetals() {
+  const group = useRef<THREE.Group>(null)
+  const petals = useMemo(
+    () =>
+      Array.from({ length: 36 }, (_, index) => {
+        const angle = index * 2.399
+        const radius = 0.45 + (index % 7) * 0.2
+        return {
+          color: ['#f8bbd9', '#f7a8c4', '#f48fb1', '#fff5f8'][index % 4],
+          position: [
+            Math.cos(angle) * radius,
+            1.7 + (index % 9) * 0.12,
+            Math.sin(angle) * radius,
+          ] as [number, number, number],
+          rotation: [angle * 0.4, angle, angle * 0.7] as [number, number, number],
+          scale: 0.7 + (index % 4) * 0.12,
+        }
+      }),
+    [],
+  )
+
+  useFrame((state) => {
+    if (!group.current) return
+    group.current.rotation.y = state.clock.elapsedTime * 0.025
+    group.current.position.y = Math.sin(state.clock.elapsedTime * 0.22) * 0.035
+  })
+
+  return (
+    <group ref={group}>
+      {petals.map((petal, index) => (
+        <mesh
+          key={index}
+          position={petal.position}
+          rotation={petal.rotation}
+          scale={petal.scale}
+        >
+          <circleGeometry args={[0.035, 7]} />
+          <meshStandardMaterial
+            color={petal.color}
+            emissive="#ec6fa9"
+            emissiveIntensity={0.08}
+            side={THREE.DoubleSide}
+            roughness={0.8}
+          />
+        </mesh>
+      ))}
     </group>
   )
 }
@@ -149,8 +239,9 @@ function GardenWorld({ world }: WorldCompositionProps) {
         <meshStandardMaterial color={palette.terrain} roughness={1} />
       </mesh>
       <WaterDisc color={palette.water} position={[0.34, 1.49, 0.18]} scale={0.76} />
-      <Tree foliage={palette.foliage} position={[-0.75, 1.3, 0]} scale={0.9} />
-      <Tree foliage={palette.accent} position={[0.95, 1.18, -0.2]} scale={0.7} />
+      <BlossomTree position={[-0.75, 1.3, 0]} scale={0.9} />
+      <BlossomTree position={[0.95, 1.18, -0.2]} scale={0.72} />
+      <BlossomTree position={[0.42, 1.39, -0.68]} scale={0.52} />
       <group position={[-0.04, 1.56, -0.1]} scale={0.42}>
         <mesh position={[0, 0.22, 0]}>
           <boxGeometry args={[0.66, 0.46, 0.5]} />
@@ -183,6 +274,13 @@ function GardenWorld({ world }: WorldCompositionProps) {
           </mesh>
         </group>
       ))}
+      <SakuraPetals />
+      <pointLight
+        position={[0.2, 2.65, 1.2]}
+        color={palette.glow}
+        intensity={2.2}
+        distance={5}
+      />
     </group>
   )
 }
@@ -341,12 +439,151 @@ const worldComponents: Record<
   autumn: AutumnWorld,
 }
 
+function LivingWorldEffects({ world }: { world: SymbolicWorld }) {
+  const group = useRef<THREE.Group>(null)
+  const worldState = useLivingWorldStore((state) => state.worlds[world.id])
+  const eventKinds = useMemo(
+    () => new Set(worldState.history.map((event) => event.kind)),
+    [worldState.history],
+  )
+
+  useFrame((_, delta) => {
+    if (!group.current) return
+    const nextScale = THREE.MathUtils.lerp(
+      group.current.scale.x,
+      1,
+      1 - Math.exp(-delta * 0.5),
+    )
+    group.current.scale.setScalar(nextScale)
+  })
+
+  const palette = world.environment.colorPalette
+
+  return (
+    <group ref={group} scale={0.01} name={`${world.name} living changes`}>
+      {eventKinds.has('first-bloom') &&
+        Array.from({ length: 18 }, (_, index) => {
+          const angle = index * 2.28
+          const radius = 0.35 + (index % 4) * 0.22
+          return (
+            <mesh
+              key={`bloom-${index}`}
+              position={[
+                Math.cos(angle) * radius,
+                1.57 + (index % 3) * 0.018,
+                Math.sin(angle) * radius,
+              ]}
+            >
+              <sphereGeometry args={[0.035, 8, 6]} />
+              <meshStandardMaterial
+                color={index % 2 ? palette.glow : palette.accent}
+                emissive={palette.glow}
+                emissiveIntensity={0.2}
+              />
+            </mesh>
+          )
+        })}
+
+      {eventKinds.has('bridge-completes') && (
+        <group position={[0, 1.68, 0.62]} rotation={[0, 0, -0.08]}>
+          {Array.from({ length: 7 }, (_, index) => (
+            <mesh key={index} position={[(index - 3) * 0.12, index * 0.015, 0]}>
+              <boxGeometry args={[0.1, 0.035, 0.28]} />
+              <meshStandardMaterial color={palette.accent} roughness={0.9} />
+            </mesh>
+          ))}
+        </group>
+      )}
+
+      {eventKinds.has('path-appears') &&
+        Array.from({ length: 8 }, (_, index) => (
+          <mesh
+            key={`path-${index}`}
+            position={[-0.75 + index * 0.19, 1.58, 0.52 - index * 0.045]}
+            rotation={[-Math.PI / 2, 0, index * 0.18]}
+          >
+            <circleGeometry args={[0.075, 10]} />
+            <meshStandardMaterial color={palette.glow} roughness={0.95} />
+          </mesh>
+        ))}
+
+      {eventKinds.has('tree-grows') && (
+        <Tree foliage={palette.foliage} position={[0, 1.46, -0.2]} scale={1.15} />
+      )}
+
+      {eventKinds.has('river-clears') && (
+        <WaterDisc color={palette.water} position={[0, 1.61, 0.35]} scale={1.35} />
+      )}
+
+      {eventKinds.has('lantern-lights') && (
+        <>
+          <mesh position={[0.58, 1.82, 0.5]}>
+            <sphereGeometry args={[0.075, 12, 9]} />
+            <meshStandardMaterial
+              color={palette.glow}
+              emissive={palette.glow}
+              emissiveIntensity={1.8}
+            />
+          </mesh>
+          <pointLight
+            position={[0.58, 1.82, 0.5]}
+            color={palette.glow}
+            intensity={4}
+            distance={3}
+          />
+        </>
+      )}
+
+      {(eventKinds.has('stars-appear') || eventKinds.has('birds-return')) && (
+        <group position={[0, 0.2, 0]}>
+          {Array.from(
+            { length: eventKinds.has('stars-appear') ? 18 : 6 },
+            (_, index) => {
+              const angle = index * 2.1
+              return (
+                <mesh
+                  key={`sky-${index}`}
+                  position={[
+                    Math.cos(angle) * (1.7 + (index % 3) * 0.3),
+                    1.8 + (index % 5) * 0.25,
+                    Math.sin(angle) * 1.5,
+                  ]}
+                >
+                  <sphereGeometry
+                    args={[eventKinds.has('stars-appear') ? 0.025 : 0.04, 7, 5]}
+                  />
+                  <meshBasicMaterial color={palette.glow} />
+                </mesh>
+              )
+            },
+          )}
+        </group>
+      )}
+
+      <mesh scale={1.075}>
+        <sphereGeometry args={[1.55, 32, 24]} />
+        <meshBasicMaterial
+          color={palette.atmosphere}
+          transparent
+          opacity={0.025 + worldState.atmosphere.fogDensity * 0.055}
+          side={THREE.BackSide}
+        />
+      </mesh>
+    </group>
+  )
+}
+
 function SymbolicWorldPlanet({ world, reducedMotion }: SymbolicWorldProps) {
   const group = useRef<THREE.Group>(null)
   const phase = useJourneyStore((state) => state.journeyPhase)
   const selectedWorldId = useJourneyStore((state) => state.selectedWorldId)
   const isSelected = selectedWorldId === world.id
   const WorldComposition = worldComponents[world.style]
+  const interpretation = useReflectionProfileStore((state) => state.interpretation)
+  const reflectionInfluence = interpretation?.worldInfluences.find(
+    (influence) => influence.worldId === world.id,
+  )
+  const reflectiveGlow = 0.045 + (reflectionInfluence?.resonance ?? 0.35) * 0.055
 
   useFrame((state, delta) => {
     if (!group.current) return
@@ -371,12 +608,13 @@ function SymbolicWorldPlanet({ world, reducedMotion }: SymbolicWorldProps) {
       name={`${world.name} symbolic world`}
     >
       <WorldComposition world={world} />
+      <LivingWorldEffects world={world} />
       <mesh scale={1.04}>
         <sphereGeometry args={[1.55, 40, 28]} />
         <meshBasicMaterial
           color={world.color}
           transparent
-          opacity={0.055}
+          opacity={reflectiveGlow}
           side={THREE.BackSide}
           blending={THREE.AdditiveBlending}
         />

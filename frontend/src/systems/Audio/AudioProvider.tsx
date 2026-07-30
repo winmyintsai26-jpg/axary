@@ -7,6 +7,7 @@ export function AudioProvider({ children }: PropsWithChildren) {
   const value = useMemo(
     () => ({
       beginJourney: () => audioManager.beginJourney(),
+      enterHeartWorld: () => audioManager.enterHeartWorld(),
     }),
     [],
   )

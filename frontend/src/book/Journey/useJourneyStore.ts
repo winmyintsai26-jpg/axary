@@ -1,9 +1,17 @@
 import { create } from 'zustand'
 
+import { reflectionJourneyVersion } from '../Questionnaire/questions'
 import type { QuestionnaireResponse, QuestionAnswer } from '../Questionnaire/types'
 
 export type JourneyPhase =
-  'introduction' | 'questionnaire' | 'book' | 'focusing' | 'orbiting' | 'returning'
+  | 'introduction'
+  | 'questionnaire'
+  | 'book'
+  | 'focusing'
+  | 'orbiting'
+  | 'entering-heart'
+  | 'heart-world'
+  | 'returning'
 
 interface JourneyState {
   answers: Record<string, QuestionnaireResponse>
@@ -13,6 +21,7 @@ interface JourneyState {
   answerQuestion: (questionId: string, answer: QuestionAnswer) => void
   beginJourney: () => void
   completeQuestionnaire: () => void
+  enterHeartWorld: () => void
   hoverWorld: (worldId: string | null) => void
   nextQuestion: () => void
   previousQuestion: () => void
@@ -36,11 +45,16 @@ export const useJourneyStore = create<JourneyState>((set) => ({
           answer,
           answeredAt: new Date().toISOString(),
           questionId,
+          schemaVersion: reflectionJourneyVersion,
         },
       },
     })),
   beginJourney: () => set({ journeyPhase: 'questionnaire' }),
   completeQuestionnaire: () => set({ journeyPhase: 'book' }),
+  enterHeartWorld: () =>
+    set((state) =>
+      state.selectedWorldId === 'heart' ? { journeyPhase: 'entering-heart' } : state,
+    ),
   hoverWorld: (hoveredWorldId) => set({ hoveredWorldId }),
   nextQuestion: () =>
     set((state) => ({ currentQuestionIndex: state.currentQuestionIndex + 1 })),

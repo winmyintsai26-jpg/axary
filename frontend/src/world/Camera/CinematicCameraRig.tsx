@@ -57,6 +57,20 @@ export function CinematicCameraRig({ reducedMotion }: CinematicCameraRigProps) {
       return
     }
 
+    if (journeyPhase === 'entering-heart') {
+      const arrivalPosition = new THREE.Vector3(0, 2.2, 9)
+      const arrivalTarget = new THREE.Vector3(0, 1.15, 0)
+      camera.position.lerp(arrivalPosition, 1 - Math.exp(-delta * 0.72))
+      currentLookAt.current.lerp(arrivalTarget, 1 - Math.exp(-delta * 0.8))
+      camera.lookAt(currentLookAt.current)
+      if (camera.position.distanceTo(arrivalPosition) < 0.12) {
+        setJourneyPhase('heart-world')
+      }
+      return
+    }
+
+    if (journeyPhase === 'heart-world') return
+
     if (journeyPhase === 'focusing') {
       const approachPosition = target.clone().add(new THREE.Vector3(0.4, 1.15, 7.1))
       camera.position.lerp(approachPosition, smoothing)

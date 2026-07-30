@@ -51,3 +51,7 @@ Reflection output contains recurring themes, open questions, and possible
 world influences. It contains no personality type, score, percentage,
 confidence rating, diagnosis, or prediction. Future AI and memory systems must
 use the same boundary and remain reviewable by the visitor.
+
+*If a feature makes the worlds feel more alive, more reflective, and more
+compassionate, it belongs in Axary. If it distracts from that purpose, it does
+not.*

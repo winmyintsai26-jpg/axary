@@ -63,8 +63,12 @@ experience requires them.
    and future-ready conversation foundations.
 4. **The Mirror Principle** — make open interpretation an enforceable product
    and engineering boundary.
-5. **World Entry** — allow intentional visits inside one symbolic world.
-6. **Living Worlds** — introduce personalization, memory, and change over time.
+5. **The Living Mirror** — let worlds remember and respond through symbolic
+   environmental change.
+6. **World Entry** — allow intentional visits inside one symbolic world.
+7. **The Heart World** — establish the finished-world quality benchmark.
+8. **The Reflection Journey** — deepen symbolic personalization without labels
+   or visible scores.
 
 See [docs/ROADMAP.md](docs/ROADMAP.md) for the product boundaries and exit
 criteria of each milestone.
@@ -97,15 +101,14 @@ dotnet run
 
 ## Current Milestone
 
-**Phase 4 — The Mirror Principle**
+**Phase 8 — The Reflection Journey**
 
-Axary now treats every symbolic interpretation as an invitation rather than a
-verdict. A reusable Reflection Engine combines reflection signals without
-producing labels or scores. Independent world blueprints and evolution state
-prepare Heart, Growth, Bonds, Purpose, and Soul to change symbolically over
-time. Every Curator response passes the Mirror Rule before it is displayed.
-AI, diagnosis, accounts, persistence, and world entry remain intentionally
-unimplemented.
+Axary now begins with an original, multi-format reflection experience spanning
+energy, decisions, relationships, creativity, purpose, conflict, change,
+reflection, curiosity, and values. Answers form a private pattern of symbolic
+influences for architecture, weather, lighting, color, vegetation, music,
+atmosphere, and landmarks. No personality label, score, diagnosis, comparison,
+or claim of clinical validity is produced or shown.
 
 ## Documentation
 
@@ -114,6 +117,7 @@ unimplemented.
 - [Roadmap](docs/ROADMAP.md)
 - [Brand Guidelines](docs/BRAND_GUIDELINES.md)
 - [Mirror Principle](docs/MIRROR_PRINCIPLE.md)
+- [Reflection Journey](docs/REFLECTION_JOURNEY.md)
 
 ## License
 
